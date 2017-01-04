@@ -1,0 +1,28 @@
+.blue-list.pay-methods-list
+  each item in paymentMethods
+    .item
+      if item.kind == "card"
+        .icon.card
+          img.shadow-icon(data-src="cc-back")
+          img.shadow-icon(data-src="visa")
+      else if item.kind == "paypal"
+        .icon.paypal
+          .circle
+            img.shadow-icon(data-src="pay-paypal")
+      .info
+        .name=item.name
+        .details
+          if item.kind == "card"
+            .label Expires
+            .val=item.meta.expirationDate
+          else if item.kind == "paypal"
+            .label Paypal
+            .val=item.meta.accountId
+          .label TotalApps
+          .val=item.apps.length
+            
+      .button(data-id="#{item.id}") Manage
+  
+  .add-new.btn#add-payment-method
+    img.shadow-icon(data-src="big-add")
+    .txt Add Payment Method

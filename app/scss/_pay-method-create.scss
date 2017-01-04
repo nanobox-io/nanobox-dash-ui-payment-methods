@@ -1,0 +1,34 @@
+$txt-color:#517582;
+.pay-method-create{font-size:16px; font-weight: $semibold; font-style:italic; color:#3f5f6b;
+
+  .new-or-existing {display:flex; padding:0 0 25px 0; border-bottom:solid #DEDEDE 1px; ;
+    .option        {display:flex; align-items: center; margin-right:40px; cursor:pointer;
+      .drop-down-trigger   {margin-left:10px; }
+      .lexi-ui             {display:inline-flex; }
+      .label               {color:$txt-color;}
+      .circle              {order:-1; margin-right:7px; }
+    }
+  }
+
+  .payment-methods {display:flex; padding:30px 0 20px 0;
+    .lexi-ui       {display:flex; flex-direction:column; align-items: center;margin-right:70px; cursor:pointer;
+      .label       {display:flex; flex-direction:column; align-items: center; margin-bottom:8px; color:$txt-color;
+        .icon      {margin-bottom:5px; }
+      }
+      .icon        {height:45px;}
+      .circle      {order:2; margin-left:8px}
+    }
+  }
+
+  .payment-method {background:#00ADFE; padding:20px;
+    label         {display:flex;
+      #name       {flex-grow: 2; margin-left:10px; }
+    }
+  }
+  .payment-holder {background:#00ADFE; padding:20px; margin-top:10px;
+    @import "./pay-methods/credit-card";
+    @import "./pay-methods/pay-pal";
+    @import "./pay-methods/direct";
+  }
+
+}

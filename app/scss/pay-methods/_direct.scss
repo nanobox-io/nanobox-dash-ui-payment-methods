@@ -1,0 +1,10 @@
+.direct{display:flex; flex-direction: column; align-items: center; justify-content: center; height:300px;
+  .direct-icon{transform:scale(2); margin:-30px 0 30px; ;
+    path{stroke:white; }
+    polygon{fill:white}
+  }
+  .txt{}
+  a{color:white; font-size:18px; @include selectable;
+    &:hover {text-decoration: underline;}
+  }
+}

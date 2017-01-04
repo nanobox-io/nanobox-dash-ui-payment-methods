@@ -1,0 +1,19 @@
+.credit-card       {height:160px;
+  &.loading        {position: relative;
+    &:before       {content:"Establishing Secure Connection.."; position:absolute; top:6px; color:white;  width:100%; text-align: center; }
+    .form *        {opacity:0;}
+  }
+  .form            {
+    #submit        {margin-top:30px; }
+    .card          {display: flex; }
+    .form-input    {display: flex; align-items: center; padding-right:10px;
+      .lex-holder  {border-bottom: 3px solid #1D8ACD; flex-grow: 2; transition: border-bottom 300ms ease;; padding:0 0 2px 0; background: none;  color:$azul2; height:30px;
+        &.braintree-hosted-fields-focused {border-bottom-color:white; }
+        &.braintree-hosted-fields-invalid {border-bottom-color:#fba5a5;  }
+      }
+      &.exp   {.lex-holder{max-width:150px;} }
+      &.cvv   {.lex-holder{max-width:55px;} }
+      label   {white-space: nowrap; padding-right:10px; }
+    }
+  }
+}
