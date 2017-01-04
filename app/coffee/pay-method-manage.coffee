@@ -3,6 +3,7 @@ payMethodManage = require 'jade/pay-method-manage'
 module.exports = class PayMethodManage
 
   constructor: (@$el, @data, onCancel, onUpdate, @onDelete) ->
+    @addIcon()
     @$node = $ payMethodManage( @data )
     @$el.append @$node
     castShadows @$node
@@ -29,6 +30,17 @@ module.exports = class PayMethodManage
           @addError results.error
         else
           @refreshPage()
+
+  addIcon : () ->
+    switch @data.kind
+      when 'direct' then @data.icon = 'pay-direct'
+      when 'paypal' then @data.icon = 'pay-paypal'
+      when 'card'
+        switch @data.meta.cardType
+          when 'visa' then @data.icon = "visa"
+          else
+            @data.icon = false
+            @data.image = @data.meta.imageURL
 
 
   destroy : ()->

@@ -11,7 +11,7 @@ module.exports = class PaymentMethodsShim
         meta  :
           cardType       : "visa"
           expirationDate : "04/18"
-          imageURL       : "some.url/file.jpg"
+          imageURL       : "http://thehandbagresource.com/images/payment-visa.png"
         apps:[
           {name:"some-app", href:"/some/url"}
         ]

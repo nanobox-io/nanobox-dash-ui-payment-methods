@@ -1,5 +1,13 @@
 .blue-item.pay-method-manage.lexi-blue.lexi
+  
   .vals
+    if icon
+      .icon(class="#{icon}")
+        img.shadow-icon(data-src="#{icon}" scalable="true")
+    else
+      .image
+        img(src="#{image}", alt="")
+          
     .val
       .label Name
       input(value="#{name}")
