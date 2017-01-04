@@ -11,6 +11,12 @@
           svg     {margin-top:8px; }
         }
       }
+      &.direct    {
+        svg       {margin:11px 0 0 18px; ; transform:scale(1.2);
+          path{stroke:white; }
+          polygon{fill:white}
+        }
+      }
     }
   }
 }

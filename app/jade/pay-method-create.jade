@@ -3,13 +3,13 @@
   .new-or-existing
     .option
       label New
-        input(type="radio" name="new-orexisting" value="new" checked="true")
-    .option
+        input(type="radio" name="new-or-existing" value="new" checked=!currentData.replaceExisting)
+    .option#existing(class=currentData.replaceExisting? "" : "disabled")
       label Replace Existing : 
-        input(type="radio" name="new-orexisting" value="existing")
+        input(type="radio" name="new-or-existing" value="existing" checked=currentData.replaceExisting)
       select
         each method in paymentMethods
-          option(value="#{method.id}") #{method.name} - #{method.kind}
+          option(value="#{method.id}" selected=method.selected) #{method.name} - #{method.kind}
   
   .payment-methods
     label.method(data-kind="card")
@@ -30,16 +30,13 @@
       | Direct
       input(type="radio" name="pay-methods" value="direct")
   
-  .payment-method.lexi-blue
+  .payment-method
     label
       | Name : 
-      input#name(placeholder="(For your benefit)")
+      input#name(placeholder="(For your benefit)" value="#{currentData.name}")
   .payment-holder
 
   .save-section
     if apps.length == 0 
-      .delete#delete-account 
-        img.shadow-icon(data-src="close-x")
-        .txt Delete
     .cancel#cancel Cancel
-    .button.lifecycle#save Save 
+    //- .button.lifecycle#save Save 

@@ -1,0 +1,22 @@
+.blue-item.pay-method-manage.lexi-blue.lexi
+  .vals
+    .val
+      .label Name
+      input(value="#{name}")
+      .button#rename.lifecycle.hidden Save
+    
+  .save-section
+    if apps.length == 0 
+      .delete#delete 
+        img.shadow-icon(data-src="close-x")
+        .txt Delete 
+    .cancel#cancel Cancel
+    .button.lifecycle#update Update / Replace
+  
+  if apps.length != 0
+    .sub-items
+      h2 Apps on this payment method
+      each app in apps
+        .item
+          .name= app.name
+          a.manage(href="#{app.href}") Manage

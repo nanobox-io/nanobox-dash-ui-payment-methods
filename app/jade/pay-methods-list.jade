@@ -9,6 +9,9 @@
         .icon.paypal
           .circle
             img.shadow-icon(data-src="pay-paypal")
+      else if item.kind == "direct"
+        .icon.direct
+          img.shadow-icon(data-src="pay-direct")
       .info
         .name=item.name
         .details
@@ -21,8 +24,8 @@
           .label TotalApps
           .val=item.apps.length
             
-      .button(data-id="#{item.id}") Manage
+      .manage.button(data-id="#{item.id}") Manage
   
   .add-new.btn#add-payment-method
     img.shadow-icon(data-src="big-add")
-    .txt Add Payment Method
+    .txt Add a Payment Method

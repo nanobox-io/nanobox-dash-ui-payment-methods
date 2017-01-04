@@ -6,7 +6,7 @@ module.exports = class PaymentMethodsShim
     [
       {
         id    : "123456789" # Also == the token braintree needs on update
-        name  : "Personal"
+        name  : "Work"
         kind  : "card"
         meta  :
           cardType       : "visa"
@@ -18,7 +18,17 @@ module.exports = class PaymentMethodsShim
       }
       {
         id    : "234567890" # Also == the token braintree needs on update
-        name  : "Work"
+        name  : "Zumiez"
+        kind  : "direct"
+        meta  :
+          accountId       : "john@doe.io"
+        apps:[
+          {name:"some-app", href:"/some/url"}
+        ]
+      }
+      {
+        id    : "34567890" # Also == the token braintree needs on update
+        name  : "Personal"
         kind  : "paypal"
         meta  :
           accountId       : "john@doe.io"
