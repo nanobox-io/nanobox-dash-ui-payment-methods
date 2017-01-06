@@ -3,37 +3,20 @@
 ## Usage
 
 ``` coffeescript
-### Callbacks ###
-
-# Called on new payment method create
-# ----------------------------------------------------
-# @nonce               : Nonce returned from braintree
-# @name                : Name of the payment method
-# @payMethodToReplace  : Data object of the payment method to replace, will be `null`
-#                        if this should not replace an existing payment method.
-onNewPaymentMethod = (name, nonce, payMethodToReplace)->
-  # If this is replacing an existing payment method
-  if payMethodToReplace?
-    console.log "Replacing #{payMethodToReplace.id} with `#{name}`. Here is the nonce : #{nonce}"
-  else
-    console.log "Creating a new payment method `#{name}`. Here is the nonce : #{noncwe}"
-
-# Delete an existing payment method
-# ----------------------------------------------------
-deletePaymendMethod = (data)->  console.log "Deleting #{data.id}"
-
-# Update an existing payment method, usually just name
-# ----------------------------------------------------
-updatePaymentMethod = (data)->  console.log "Updating #{data.id}"
-
-
 
 config =
-  clientToken         : 'eyJ2ZXJzaW9uIjoyLCJhd'
-  paymentMethods      : shim.getPaymentMethods()
-  onNewPaymentMethod  : onNewPaymentMethod
-  deletePaymendMethod : deletePaymendMethod
-  updatePaymentMethod : updatePaymentMethod
+  clientToken          : 'eyJ2ZXJza'
+  paymentMethods       : shim.getPaymentMethods()
+  # Create new payment method √
+  createPaymentMethod  : (data, nonce, cb)-> console.log 'create payment method'; console.log data; console.log nonce; cb({error:"nope, can't do it"})
+  # Update existing payment method √
+  updatePaymentMethod  : (data, nonce, cb)-> console.log 'update payment method'; console.log data; console.log nonce; cb({})
+  # Rename payment method √
+  renamePaymentMethod  : (data, newName, cb)-> console.log 'rename payment method'; console.log data; console.log newName; cb({})
+  # Replace existing payment method with new payment method √
+  replacePaymentMethod : (oldData, newData, nonce, cb)-> console.log 'replace payment method'; console.log oldData; console.log newData; console.log nonce; cb({})
+  # Delete payment method √
+  deletePaymentMethod  : (data, cb)-> console.log 'delete payment method'; console.log data; cb({error:"nope, can't do it"})
 
 app = new nanobox.PaymentMethods $(".stage-holder"), config
 
