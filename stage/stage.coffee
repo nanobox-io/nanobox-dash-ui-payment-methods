@@ -1,7 +1,7 @@
 PaymentMethodsShim = require './shim/payment-methods'
 shim = new PaymentMethodsShim()
 
-# Callbacks
+### Callbacks ###
 
 # Called on new payment method create
 # ----------------------------------------------------
@@ -16,7 +16,12 @@ onNewPaymentMethod = (name, nonce, payMethodToReplace)->
   else
     console.log "Creating a new payment method `#{name}`. Here is the nonce : #{noncwe}"
 
+# Delete an existing payment method
+# ----------------------------------------------------
 deletePaymendMethod = (data)->  console.log "Deleting #{data.id}"
+
+# Update an existing payment method, usually just name
+# ----------------------------------------------------
 updatePaymentMethod = (data)->  console.log "Updating #{data.id}"
 
 config =

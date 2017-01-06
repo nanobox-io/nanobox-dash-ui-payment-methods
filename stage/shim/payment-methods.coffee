@@ -9,9 +9,12 @@ module.exports = class PaymentMethodsShim
         name  : "Work"
         kind  : "card"
         meta  :
+          NameOnCard     : "John Doe"
+          lastFourDigits : 1234
           cardType       : "visa"
           expirationDate : "04/18"
           imageURL       : "http://thehandbagresource.com/images/payment-visa.png"
+          cvv            : 123
         apps:[
           {name:"some-app", href:"/some/url"}
         ]

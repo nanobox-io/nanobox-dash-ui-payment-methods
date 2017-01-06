@@ -31,7 +31,11 @@ module.exports = class PayMethodCreate
     @removeOldPayMethod()
     switch kind
       when 'card'
-        @paymentMethod = new CreditCard @$paymentHolder, @brainTreeAuthoToken
+        @paymentMethod = new CreditCard @$paymentHolder, @brainTreeAuthoToken, @onCardFieldsReadyForSubmit
+        @$saveBtn      = $("#save", @$node)
+        @$saveBtn.removeClass 'hidden'
+        @$saveBtn.on 'click', ()=> @paymentMethod.tokenizeFields(@onSubmitComplete)
+
       when 'paypal'
         @paymentMethod = new PayPal @$paymentHolder, @brainTreeAuthoToken
       when 'direct'
@@ -52,6 +56,19 @@ module.exports = class PayMethodCreate
     $("input[name='pay-methods']", @$node).off 'click'
     @paymentMethod.destroy()
     @$node.remove()
+
+  # ------------------------------------ Credit Card Specific
+
+  onCardFieldsReadyForSubmit : (isReady) =>
+    if isReady
+      @$saveBtn.removeClass 'disabled'
+    else
+      @$saveBtn.addClass 'disabled'
+
+  onSubmitComplete : (err, nonce)=>
+    return if err
+    console.log nonce
+
 
   # ------------------------------------ Helpers
 
