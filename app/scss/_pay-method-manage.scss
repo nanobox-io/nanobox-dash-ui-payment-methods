@@ -1,9 +1,30 @@
-.pay-method-manage {position: relative;
-  .vals{position: relative; }
-  .icon, .image    {padding:10px; width:80px; height:80px; background: white; border-radius: 50%; position: absolute; top:0; display: flex; align-items: center; top:0; bottom:0; margin:auto 0; left:20px;
-    &.pay-paypal   {padding:17px; }
+.pay-method-manage   {position: relative;
+  .back-wrapper      {display: flex; }
+  .vals              {position: relative; display: flex; flex-direction: column;
+    .readonly        {border:none; font-size:17px; font-family:$code; font-style:normal; font-weight: normal; color: #006ead; font-weight:bold;
+      span           {line-height: 32px; font-size:23px; font-weight: normal; }
+    }
+    .update          {color:white; font-size:16px; font-style:italic; text-decoration:underline; margin-left:auto; display: block; margin-top:10px; cursor:pointer;
+      &.hidden       {display:none; }
+    }
+    .button          {background:white; }
   }
-  .image {padding:0;  justify-content: center;
-    img       {width:74px; border-radius: 50%;}
+  .icon, .image      {padding:10px; width:80px; height:80px; background: white; border-radius: 50%; display: flex; align-items: center;  position: absolute; top:30px; left:20px;
+    &.pay-paypal     {padding:17px; }
+  }
+  .image             {padding:0;  justify-content: center;
+    img              {width:74px; border-radius: 50%;}
+  }
+  h2                 {margin-top:40px;}
+  .payment-holder    {margin-left:50px; }
+  .manage            {display: flex; flex-direction: column; align-items: flex-start;
+    #update-with-new {
+      svg            {margin-left:10px; }
+    }
+    .delete          {margin-top:10px;
+      &.not-empty    {display:inline-flex; pointer-events: none;
+        &:after      {content: "(To Delete, first remove all apps from this payment method)"}
+      }
+    }
   }
 }

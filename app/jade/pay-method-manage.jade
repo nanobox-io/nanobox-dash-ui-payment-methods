@@ -1,5 +1,9 @@
 .blue-item.pay-method-manage.lexi-blue.lexi
-  
+  .back-wrapper
+    .back-btn#back-btn
+      .txt Back
+      img.shadow-icon(data-src="close-x")
+      
   .vals
     if icon
       .icon(class="#{icon}")
@@ -13,17 +17,34 @@
       input(value="#{name}")
       .button#rename.lifecycle.hidden Save
     
-  .save-section
+    if kind == "card"
+      .val
+        .label Card
+        .readonly <span>**** **** ****</span> #{meta.lastFourDigits}
+      .update#update-extras Update Card Exp Date or CVV
+    
+      .payment-holder
+      
+  .save-section.hidden
     if apps.length == 0 
       .delete#delete 
         img.shadow-icon(data-src="close-x")
         .txt Delete 
     .cancel#cancel Cancel
-    .button.lifecycle#update Update / Replace
+    .button.lifecycle.disabled#save-extras Save
   
+  .manage
+    h2 Admin
+    .button#update-with-new
+      .txt Replace with new payment method
+      img.shadow-icon(data-src="replace-payment")
+    .delete#delete 
+      img.shadow-icon(data-src="close-x")
+      .txt Delete Payment Method
+      
   if apps.length != 0
     .sub-items
-      h2 Apps on this payment method
+      h2 Apps billed via this payment method
       each app in apps
         .item
           .name= app.name

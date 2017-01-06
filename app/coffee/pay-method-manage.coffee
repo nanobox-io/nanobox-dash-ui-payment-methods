@@ -1,18 +1,21 @@
 payMethodManage = require 'jade/pay-method-manage'
+CreditCard      = require 'pay-method/credit-card'
 
 module.exports = class PayMethodManage
 
-  constructor: (@$el, @data, onCancel, onUpdate, @onDelete) ->
+  constructor: (@$el, @data, @brainTreeAuthoToken, onCancel, onReplaceWithNew, @onUpdateCard, @onDelete) ->
     @addIcon()
     @$node = $ payMethodManage( @data )
     @$el.append @$node
     castShadows @$node
     lexify @$node
 
-    $("input", @$node).on 'input',   (e)=> @onNameInput(e)
-    $("#delete", @$node).on 'click', (e)=> @deleteAccountClick(e)
-    $("#update", @$node).on 'click', ()=> onUpdate @data
-    $("#cancel", @$node).on 'click', ()=> onCancel()
+    $("input"           , @$node).on 'input', (e)=> @onNameInput(e)
+    $("#delete"         , @$node).on 'click', (e)=> @deleteAccountClick(e)
+    $("#update-with-new", @$node).on 'click', ()=> onReplaceWithNew @data
+    $("#cancel"         , @$node).on 'click', ()=> onCancel()
+    $("#back-btn"       , @$node).on 'click', ()=> onCancel()
+    $("#update-extras"  , @$node).on 'click', ()=> @addExtras()
 
   onNameInput : (e) ->
     if e.currentTarget.value != @data.name
@@ -20,9 +23,22 @@ module.exports = class PayMethodManage
     else
       $("#rename", @$node).addClass 'hidden'
 
+  addExtras : () ->
+    if @data.kind == "card"
+      @$saveBtn = $("#save-extras", @$node)
+      $("#update-extras", @$node).addClass "hidden"
+      @paymentMethod = new CreditCard $(".payment-holder", @$node), @brainTreeAuthoToken, @$saveBtn, @data
+      $(".save-section", @$node).removeClass 'hidden'
+      @$saveBtn.on 'click', ()=> @paymentMethod.tokenizeFields(@onUpdateCard)
+
+  onCardFieldsReadyForSubmit : () ->
+    console.log "ready"
+
   deleteAccountClick : (e) ->
     # The first time the user clicks delete, show the confirm message
-    if e.currentTarget.className.indexOf("confirm") == -1
+    if @data.apps.length != 0
+      e.currentTarget.className = "#{e.currentTarget.className} not-empty"
+    else if e.currentTarget.className.indexOf("confirm") == -1
       e.currentTarget.className = "#{e.currentTarget.className} confirm"
     else
       @onDelete @data, (results)=>

@@ -13,6 +13,8 @@
 	.st7{fill:#FFFFFF;}
 	.st8{fill:#0066B2;}
 	.st9{fill:#F9A533;}
+	.st10{fill:none;stroke:#FFFFFF;stroke-width:1.5994;stroke-miterlimit:10;}
+	.st11{fill:none;stroke:#FFFFFF;stroke-width:1.5994;stroke-miterlimit:10;stroke-dasharray:2.5954,2.5954;}
 </style>
 <g id="pay-paypal_x60_37x43">
 	<path class="st0" d="M34.595,12.339c-0.514-0.583-1.151-1.067-1.895-1.461c-0.444-0.235-0.925-0.437-1.443-0.609
@@ -69,5 +71,23 @@
 		c0-4.294-6.001-4.694-6.001-6.561C31.707,3.014,35.894,3.253,37.734,4.267z"/>
 	<path class="st9" d="M10.343,9.21L8.896,1.783c0,0-0.175-1.488-2.04-1.488H0.079L0,0.575c0,0,3.257,0.675,6.382,3.204
 		C9.368,6.197,10.343,9.21,10.343,9.21z"/>
+</g>
+<g id="replace-payment_x60_37x13">
+	<rect x="0.8" y="0.8" class="st10" width="10.786" height="10.786"/>
+	<g>
+		<g>
+			<polyline class="st10" points="35.944,10.173 35.944,11.673 34.444,11.673 			"/>
+			<line class="st11" x1="31.849" y1="11.673" x2="27.956" y2="11.673"/>
+			<polyline class="st10" points="26.658,11.673 25.158,11.673 25.158,10.173 			"/>
+			<line class="st11" x1="25.158" y1="7.578" x2="25.158" y2="3.684"/>
+			<polyline class="st10" points="25.158,2.387 25.158,0.887 26.658,0.887 			"/>
+			<line class="st11" x1="29.254" y1="0.887" x2="33.147" y2="0.887"/>
+			<polyline class="st10" points="34.444,0.887 35.944,0.887 35.944,2.387 			"/>
+			<line class="st11" x1="35.944" y1="4.982" x2="35.944" y2="8.875"/>
+		</g>
+	</g>
+	<path class="st10" d="M16.409,2.957"/>
+	<line class="st10" x1="11.586" y1="6.193" x2="19.645" y2="6.193"/>
+	<polyline class="st10" points="16.409,9.429 19.645,6.193 16.409,2.957 	"/>
 </g>
 </svg>

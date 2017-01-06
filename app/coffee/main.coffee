@@ -19,7 +19,10 @@ class PaymentMethods
 
   managePayMethod : (id)=>
     @list.hide()
-    @manager = new PayMethodManage @$el, @getPaymentMethodDataById(id), @showList, @createPayMethod, @deletePayMethod
+    @manager = new PayMethodManage @$el, @getPaymentMethodDataById(id), @config.clientToken, @showList, @createPayMethod, @updateCard, @deletePayMethod
+
+  updateCard : (err) ->
+    if err then console.log err; return
 
   getPaymentMethodDataById : (id) ->
     for methData in @config.paymentMethods

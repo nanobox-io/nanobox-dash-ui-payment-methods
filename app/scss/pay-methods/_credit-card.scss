@@ -1,4 +1,4 @@
-.credit-card       {height:160px;
+.credit-card       {
   &.loading        {position: relative;
     &:before       {content:"Establishing Secure Connection.."; position:absolute; top:6px; color:white;  width:100%; text-align: center; }
     .form *        {opacity:0;}

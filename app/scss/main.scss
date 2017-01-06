@@ -2,3 +2,16 @@
 @import 'pay-methods-list';
 @import 'pay-method-create';
 @import 'pay-method-manage';
+.payment-holder {
+  @import "./pay-methods/credit-card";
+  @import "./pay-methods/pay-pal";
+  @import "./pay-methods/direct";
+}
+.back-btn       {display: flex; font-size:15px; font-style: italic; font-weight: $semibold; margin-left:auto; padding-bottom:10px;cursor:pointer; 
+  .txt          {color:#677B85; margin-right:10px; }
+  svg *         {fill:#677B85; margin-left:10px; }
+  &:hover       {
+    .txt        {color:#264250;}
+    svg *       {fill:#264250;}
+  }
+}

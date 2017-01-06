@@ -16,7 +16,9 @@ module.exports = class PaymentMethodsShim
           imageURL       : "http://thehandbagresource.com/images/payment-visa.png"
           cvv            : 123
         apps:[
+          {name:"main", href:"/some/url"}
           {name:"some-app", href:"/some/url"}
+          {name:"facebook-app", href:"/some/url"}
         ]
       }
       {
@@ -26,7 +28,8 @@ module.exports = class PaymentMethodsShim
         meta  :
           accountId       : "john@doe.io"
         apps:[
-          {name:"some-app", href:"/some/url"}
+          {name:"zumiez-site", href:"/some/url"}
+          {name:"zumiez-admin", href:"/some/url"}
         ]
       }
       {

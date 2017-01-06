@@ -1,9 +1,10 @@
-.credit-card.loading  
+.credit-card.loading(class=creatingFromScratch ? 'from-scratch' : '')
   .form.lexi-blue(id="", method="", action="")
     .card
-      .form-input
-        label(for="card-number") Card Number
-        .lex-holder#card-number
+      if creatingFromScratch
+        .form-input
+          label(for="card-number") Card Number
+          .lex-holder#card-number
       .form-input.exp
         label(for="expiration-date") Exp. Date
         .lex-holder#expiration-date

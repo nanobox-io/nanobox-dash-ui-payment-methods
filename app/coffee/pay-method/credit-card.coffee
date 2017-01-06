@@ -3,13 +3,15 @@ PaymentMethod = require 'pay-method/payment-method'
 
 module.exports = class CreditCard extends PaymentMethod
 
-  constructor: (@$el, @authToken, @readinessChangedCb) ->
+  constructor: (@$el, @authToken, @$submitBtn, @currentVals) ->
+    console.log @$submitBtn
+    @creatingFromScratch = !@currentVals?
     @initBraintree()
     $("#submit-cc").on 'click', @tokenizeFields
     super()
 
   initBraintree : () ->
-    @$node = $ creditCard( {} )
+    @$node = $ creditCard( {creatingFromScratch:@creatingFromScratch} )
     @$el.append @$node
 
     # Initialize the braintree js client
@@ -25,6 +27,9 @@ module.exports = class CreditCard extends PaymentMethod
           cvv            : {selector: '#cvv',}
           expirationDate : {placeholder: "mm / yy", selector: '#expiration-date'}
 
+      # No current Values, we're creating from scratch
+      if !@creatingFromScratch then delete options.fields.number
+
       # Create the braintree iframe fields
       braintree.hostedFields.create options, (hostedFieldsErr, @hostedFieldsInstance)=>
         if (hostedFieldsErr) then return
@@ -39,12 +44,16 @@ module.exports = class CreditCard extends PaymentMethod
     for key, field of @hostedFieldsInstance.getState().fields
       # If any field is invalid..
       if !field.isValid
-        console.log 'not valid'
-        @readinessChangedCb false
+        @updateSubtmiBtn false
         return
     # All fields passed validity check, form is valid
-    console.log 'Valid!'
-    @readinessChangedCb true
+    @updateSubtmiBtn true
+
+  updateSubtmiBtn : (isReady) ->
+    if isReady
+      @$submitBtn.removeClass 'disabled'
+    else
+      @$submitBtn.addClass 'disabled'
 
   # Tokenize the fields
   tokenizeFields : (cb) =>

@@ -1,6 +1,7 @@
 .pay-methods-list {
   &.hidden        {display:none;}
   .item           {
+    .button      {background:white; }
     .icon         {background:none;
       &.card      {position:relative;
         #cc-back  {margin:11px 0 0 -15px;}

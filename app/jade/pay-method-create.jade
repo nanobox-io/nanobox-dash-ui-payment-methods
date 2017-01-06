@@ -1,5 +1,4 @@
 .blue-item.lexi.pay-method-create
-  
   .new-or-existing
     .option
       label New
@@ -10,7 +9,8 @@
       select
         each method in paymentMethods
           option(value="#{method.id}" selected=method.selected) #{method.name} - #{method.kind}
-  
+    .back-btn#back-btn
+      img.shadow-icon(data-src="close-x")  
   .payment-methods
     label.method(data-kind="card")
       .icon
