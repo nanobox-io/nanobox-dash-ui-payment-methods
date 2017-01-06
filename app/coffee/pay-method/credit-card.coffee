@@ -59,19 +59,17 @@ module.exports = class CreditCard extends PaymentMethod
   tokenizeFields : (cb) =>
     @hostedFieldsInstance.tokenize {vault: true}, (tokenizeErr, payload)=>
       if tokenizeErr
-        cb tokenizeErr, null
         switch tokenizeErr.code
           when 'HOSTED_FIELDS_FIELDS_EMPTY'
-            console.error 'All fields are empty! Please fill out the form.'
+            cb 'All fields are empty! Please fill out the form.'
           when 'HOSTED_FIELDS_FIELDS_INVALID'
-            console.error 'Some fields are invalid:', tokenizeErr.details.invalidFieldKeys
+            cb 'Some fields are invalid:' #, tokenizeErr.details.invalidFieldKeys
           when 'HOSTED_FIELDS_FAILED_TOKENIZATION'
-            console.error 'Tokenization failed server side. Is the card valid?'
+            cb 'Tokenization failed server side. Is the card valid?'
           when 'HOSTED_FIELDS_TOKENIZATION_NETWORK_ERROR'
-            console.error 'Network error occurred when tokenizing.'
+            cb 'Network error occurred when tokenizing.'
           else
-            console.error 'Something bad happened!', tokenizeErr
+            cb "Something bad happened! #{tokenizeErr}"
 
       else
         cb null, payload.nonce
-        console.log('Got nonce:', payload.nonce);

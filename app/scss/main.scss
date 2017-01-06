@@ -7,11 +7,14 @@
   @import "./pay-methods/pay-pal";
   @import "./pay-methods/direct";
 }
-.back-btn       {display: flex; font-size:15px; font-style: italic; font-weight: $semibold; margin-left:auto; padding-bottom:10px;cursor:pointer; 
+.back-btn       {display: flex; font-size:15px; font-style: italic; font-weight: $semibold; margin-left:auto; padding-bottom:10px;cursor:pointer;
   .txt          {color:#677B85; margin-right:10px; }
   svg *         {fill:#677B85; margin-left:10px; }
   &:hover       {
     .txt        {color:#264250;}
     svg *       {fill:#264250;}
   }
+}
+.payment-methods{
+  .errors{bottom:initial; top:-70px;  }
 }

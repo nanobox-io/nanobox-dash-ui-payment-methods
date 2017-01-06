@@ -39,7 +39,6 @@ module.exports = class PaymentMethodsShim
         meta  :
           accountId       : "john@doe.io"
         apps:[
-          {name:"some-app", href:"/some/url"}
         ]
       }
     ]

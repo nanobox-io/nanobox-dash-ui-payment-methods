@@ -14,7 +14,7 @@
           
     .val
       .label Name
-      input(value="#{name}")
+      input#name(value="#{name}")
       .button#rename.lifecycle.hidden Save
     
     if kind == "card"
@@ -26,10 +26,6 @@
       .payment-holder
       
   .save-section.hidden
-    if apps.length == 0 
-      .delete#delete 
-        img.shadow-icon(data-src="close-x")
-        .txt Delete 
     .cancel#cancel Cancel
     .button.lifecycle.disabled#save-extras Save
   

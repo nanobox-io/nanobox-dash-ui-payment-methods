@@ -3,19 +3,20 @@ CreditCard      = require 'pay-method/credit-card'
 
 module.exports = class PayMethodManage
 
-  constructor: (@$el, @data, @brainTreeAuthoToken, onCancel, onReplaceWithNew, @onUpdateCard, @onDelete) ->
+  constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, onReplaceWithNew, @onRename, @onUpdateCard, @onDelete) ->
     @addIcon()
     @$node = $ payMethodManage( @data )
     @$el.append @$node
     castShadows @$node
     lexify @$node
 
-    $("input"           , @$node).on 'input', (e)=> @onNameInput(e)
+    $("input#name"      , @$node).on 'input', (e)=> @onNameInput(e)
     $("#delete"         , @$node).on 'click', (e)=> @deleteAccountClick(e)
-    $("#update-with-new", @$node).on 'click', ()=> onReplaceWithNew @data
-    $("#cancel"         , @$node).on 'click', ()=> onCancel()
-    $("#back-btn"       , @$node).on 'click', ()=> onCancel()
-    $("#update-extras"  , @$node).on 'click', ()=> @addExtras()
+    $("#update-with-new", @$node).on 'click', (e)=> onReplaceWithNew @data
+    $("#cancel"         , @$node).on 'click', (e)=> onCancel()
+    $("#back-btn"       , @$node).on 'click', (e)=> onCancel()
+    $("#update-extras"  , @$node).on 'click', (e)=> @addExtras()
+    $("#rename"         , @$node).on 'click', (e)=> @onRename @data, $("input#name", @$node).val(), (result)=> @checkForErrors(result, null, true)
 
   onNameInput : (e) ->
     if e.currentTarget.value != @data.name
@@ -29,10 +30,14 @@ module.exports = class PayMethodManage
       $("#update-extras", @$node).addClass "hidden"
       @paymentMethod = new CreditCard $(".payment-holder", @$node), @brainTreeAuthoToken, @$saveBtn, @data
       $(".save-section", @$node).removeClass 'hidden'
-      @$saveBtn.on 'click', ()=> @paymentMethod.tokenizeFields(@onUpdateCard)
+      @$saveBtn.on 'click', ()=> @paymentMethod.tokenizeFields (err, nonce)=>
+        if err?
+          @checkForErrors {error:err}
+        else
+          @onUpdateCard @data, nonce, (results)=>
+            @checkForErrors results, null, true
 
   onCardFieldsReadyForSubmit : () ->
-    console.log "ready"
 
   deleteAccountClick : (e) ->
     # The first time the user clicks delete, show the confirm message
@@ -41,11 +46,8 @@ module.exports = class PayMethodManage
     else if e.currentTarget.className.indexOf("confirm") == -1
       e.currentTarget.className = "#{e.currentTarget.className} confirm"
     else
-      @onDelete @data, (results)=>
-        if results.error
-          @addError results.error
-        else
-          @refreshPage()
+      @onDelete @data, (results)=> @checkForErrors(results, null, true)
+
 
   addIcon : () ->
     switch @data.kind
@@ -61,3 +63,5 @@ module.exports = class PayMethodManage
 
   destroy : ()->
     @$node.remove()
+
+  refreshPage : () -> setTimeout "location.reload(true);", 1000

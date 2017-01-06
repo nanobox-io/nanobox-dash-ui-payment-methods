@@ -5,9 +5,9 @@ Direct           = require 'pay-method/direct'
 
 module.exports = class PayMethodCreate
 
-  constructor: ($el, paymentMethods, @destroyCb, @brainTreeAuthoToken, data) ->
-    currentData = @prepareCurrentData data, paymentMethods
-    @$node = $ payMethodCreate( {apps:[], paymentMethods:paymentMethods, currentData:currentData} )
+  constructor: ($el, @paymentMethods, @destroyCb, @brainTreeAuthoToken, currentItemData, @createPayMethod, @replacePaymentMethod, @checkForErrors, @clearErrors) ->
+    curItemData = @prepareCurrentData currentItemData, @paymentMethods
+    @$node = $ payMethodCreate( {apps:[], paymentMethods:@paymentMethods, currentData:curItemData} )
     @$paymentHolder = $ ".payment-holder", @$node
     $el.append @$node
     castShadows @$node
@@ -24,17 +24,20 @@ module.exports = class PayMethodCreate
     $("#back-btn", @$node).on 'click', @destroyCb
 
     # Default
-    kind = if currentData.replaceExisting then currentData.kind else 'card'
+    kind = if curItemData.replaceExisting then curItemData.kind else 'card'
     $("input[value='#{kind}']", @$node).trigger 'click'
 
   switchPaymentMethod : (kind) ->
     @removeOldPayMethod()
+    @clearErrors()
     switch kind
       when 'card'
         @$saveBtn      = $("#save", @$node)
         @paymentMethod = new CreditCard @$paymentHolder, @brainTreeAuthoToken, @$saveBtn, null
         @$saveBtn.removeClass 'hidden'
-        @$saveBtn.on 'click', ()=> @paymentMethod.tokenizeFields(@onSubmitComplete)
+        @$saveBtn.on 'click', ()=>
+          @clearErrors()
+          @paymentMethod.tokenizeFields(@onSubmitComplete)
 
       when 'paypal'
         @paymentMethod = new PayPal @$paymentHolder, @brainTreeAuthoToken
@@ -59,15 +62,17 @@ module.exports = class PayMethodCreate
 
   # ------------------------------------ Credit Card Specific
 
-  # onCardFieldsReadyForSubmit : (isReady) =>
-  #   if isReady
-  #     @$saveBtn.removeClass 'disabled'
-  #   else
-  #     @$saveBtn.addClass 'disabled'
-
   onSubmitComplete : (err, nonce)=>
-    return if err
-    console.log nonce
+    if err?
+      @checkForErrors {error:err}
+    else
+      newData = { name : $("input#name", @$node).val() }
+      # New payment method from scratch
+      if $("input[name='new-or-existing']:checked", @$node).val() == "new"
+        @createPayMethod newData, nonce
+      else
+        @paymentMethods
+        @replacePaymentMethod @getReplaceeData(), newData, nonce, (results)=> @checkForErrors(results, null, true)
 
 
   # ------------------------------------ Helpers
@@ -85,3 +90,10 @@ module.exports = class PayMethodCreate
         payMethod.selected = null
 
     return obj
+
+  # Get the data for the payment method we are replacing
+  getReplaceeData : () ->
+    id = $('select#payment-methods').val()
+    for paymentMethod in @paymentMethods
+      if paymentMethod.id == id
+        return paymentMethod
