@@ -1,9 +1,9 @@
 .blue-item.lexi.pay-method-create
   .new-or-existing
-    .option
-      label New
-        input(type="radio" name="new-or-existing" value="new" checked=!currentData.replaceExisting)
     if paymentMethods.length >0
+      .option
+        label New
+          input(type="radio" name="new-or-existing" value="new" checked=!currentData.replaceExisting)
       .option#existing(class=currentData.replaceExisting? "" : "disabled")
         label Replace Existing : 
           input(type="radio" name="new-or-existing" value="existing" checked=currentData.replaceExisting)

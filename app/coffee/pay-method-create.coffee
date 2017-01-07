@@ -63,15 +63,16 @@ module.exports = class PayMethodCreate
   # ------------------------------------ Credit Card Specific
 
   onSubmitComplete : (err, nonce)=>
+    err = null
+    nonce = "ASDF"
     if err?
       @checkForErrors {error:err}
     else
       newData = { name : $("input#name", @$node).val() }
       # New payment method from scratch
-      if $("input[name='new-or-existing']:checked", @$node).val() == "new"
-        @createPayMethod newData, nonce
+      if $("input[name='new-or-existing']:checked", @$node).val() == "new" || @paymentMethods.length == 0
+        @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, true)
       else
-        @paymentMethods
         @replacePaymentMethod @getReplaceeData(), newData, nonce, (results)=> @checkForErrors(results, null, true)
 
 
