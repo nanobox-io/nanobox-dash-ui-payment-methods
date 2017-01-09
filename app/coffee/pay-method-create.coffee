@@ -63,8 +63,6 @@ module.exports = class PayMethodCreate
   # ------------------------------------ Credit Card Specific
 
   onSubmitComplete : (err, nonce)=>
-    err = null
-    nonce = "ASDF"
     if err?
       @checkForErrors {error:err}
     else
