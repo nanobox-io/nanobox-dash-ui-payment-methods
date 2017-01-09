@@ -40,7 +40,7 @@ module.exports = class PayMethodCreate
           @paymentMethod.tokenizeFields(@onSubmitComplete)
 
       when 'paypal'
-        @paymentMethod = new PayPal @$paymentHolder, @brainTreeAuthoToken
+        @paymentMethod = new PayPal @$paymentHolder, @brainTreeAuthoToken, @onSubmitComplete
       when 'direct'
         @paymentMethod = new Direct @$paymentHolder
 
@@ -60,18 +60,23 @@ module.exports = class PayMethodCreate
     @paymentMethod.destroy()
     @$node.remove()
 
-  # ------------------------------------ Credit Card Specific
+  # ------------------------------------ Called on payment submission complete
 
-  onSubmitComplete : (err, nonce)=>
+  onSubmitComplete : (err, nonce, extraData)=>
     if err?
       @checkForErrors {error:err}
     else
-      newData = { name : $("input#name", @$node).val() }
+      newData =
+        name : $("input#name", @$node).val()
+        kind : $("input[name='pay-methods']:checked", @$node).val()
+
+      newData[key] = val for key, val of extraData
+
       # New payment method from scratch
       if $("input[name='new-or-existing']:checked", @$node).val() == "new" || @paymentMethods.length == 0
-        @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, true)
+        @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, false)
       else
-        @replacePaymentMethod @getReplaceeData(), newData, nonce, (results)=> @checkForErrors(results, null, true)
+        @replacePaymentMethod @getReplaceeData(), newData, nonce, (results)=> @checkForErrors(results, null, false)
 
 
   # ------------------------------------ Helpers
