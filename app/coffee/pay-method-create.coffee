@@ -30,6 +30,8 @@ module.exports = class PayMethodCreate
   switchPaymentMethod : (kind) ->
     @removeOldPayMethod()
     @clearErrors()
+    @$node.removeClass "card paypal direct"
+    @$node.addClass kind
     switch kind
       when 'card'
         @$saveBtn      = $("#save", @$node)
@@ -74,9 +76,9 @@ module.exports = class PayMethodCreate
 
       # New payment method from scratch
       if $("input[name='new-or-existing']:checked", @$node).val() == "new" || @paymentMethods.length == 0
-        @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, false)
+        @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, true)
       else
-        @replacePaymentMethod @getReplaceeData(), newData, nonce, (results)=> @checkForErrors(results, null, false)
+        @replacePaymentMethod @getReplaceeData(), newData, nonce, (results)=> @checkForErrors(results, null, true)
 
 
   # ------------------------------------ Helpers

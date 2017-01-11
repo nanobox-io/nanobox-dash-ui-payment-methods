@@ -23,11 +23,19 @@ $txt-color:#517582;
     }
   }
 
-  .payment-method {background:white; padding:20px;
-    label         {display:flex;
-      #name       {flex-grow: 2; margin-left:10px; }
+  .name     {background:white; padding:20px;
+    label   {display:flex;
+      #name {flex-grow: 2; margin-left:10px; }
     }
   }
-  .payment-holder {background:#00ADFE; padding:20px; margin-top:10px;}
+  .payment-holder    {background:#00ADFE; padding:20px; margin-top:10px;}
+  
+  &.paypal, &.direct {
+    .save-section    {display:none}
+  }
+
+  &.direct {
+    .name  {display: none;}
+  }
 
 }
