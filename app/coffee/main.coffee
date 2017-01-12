@@ -28,7 +28,7 @@ class PaymentMethods
   managePayMethod : (id)=>
     @list.hide()
     @clearErrors()
-    @manager = new PayMethodManage @$holder, @getPaymentMethodDataById(id), @config.clientToken, @checkForErrors, @showList, @createPayMethod, @config.renamePaymentMethod, @config.updatePaymentMethod, @config.deletePaymentMethod
+    @manager = new PayMethodManage @$holder, @getPaymentMethodDataById(id), @config.clientToken, @checkForErrors, @showList, @config.getInvoice, @createPayMethod, @config.renamePaymentMethod, @config.updatePaymentMethod, @config.deletePaymentMethod
 
   getPaymentMethodDataById : (id) ->
     for methData in @config.paymentMethods

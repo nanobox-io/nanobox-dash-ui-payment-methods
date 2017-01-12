@@ -13,7 +13,7 @@ module.exports = class PayMethodCreate
     castShadows @$node
     lexify @$node
 
-    # Payment method chooser (credit, paypal, etc)
+    # New, or existing card
     $("input[name='new-or-existing']", @$node).on 'click', (e)=>
       @switchNewOrExisting e.currentTarget.value
 

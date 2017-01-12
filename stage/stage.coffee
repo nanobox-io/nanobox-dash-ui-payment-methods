@@ -18,5 +18,6 @@ config =
   # replacePaymentMethod : (oldData, newData, nonce, cb)-> console.log 'replace payment method'; console.log oldData; console.log newData; console.log nonce; cb({})
   # Delete payment method √
   deletePaymentMethod  : (data, cb)-> console.log 'delete payment method'; console.log data; cb({error:"nope, can't do it"})
+  getInvoice           : (id, cb) -> cb shim.getInvoice(id)
 
 app = new nanobox.PaymentMethods $(".stage-holder"), config

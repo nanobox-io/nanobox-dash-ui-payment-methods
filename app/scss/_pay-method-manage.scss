@@ -15,13 +15,14 @@
   .image             {padding:0;  justify-content: center;
     img              {width:74px; border-radius: 50%;}
   }
-  h2                 {margin-top:40px;}
+  h2                 {margin: 65px 0 16px !important; padding:10px 0;  }
   .payment-holder    {margin-left:50px; }
   .manage            {display: flex; flex-direction: column; align-items: flex-start;
+    .inline          {display: flex; align-items: center; justify-content: flex-end; width: 100%; }
     #update-with-new {
       svg            {margin-left:10px; }
     }
-    .delete          {margin-top:10px;
+    .delete          {margin-right:initial;
       &.not-empty    {display:inline-flex; pointer-events: none;
         &:after      {content: "(To Delete, first remove all apps from this payment method)"}
       }

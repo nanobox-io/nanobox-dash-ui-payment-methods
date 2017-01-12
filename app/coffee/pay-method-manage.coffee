@@ -1,23 +1,25 @@
 payMethodManage = require 'jade/pay-method-manage'
 CreditCard      = require 'pay-method/credit-card'
+Invoice         = require 'invoice'
 
 module.exports = class PayMethodManage
 
-  constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, onReplaceWithNew, @onRename, @onUpdateCard, @onDelete) ->
+  constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, @retrieveInvoice, onReplaceWithNew, @onRename, @onUpdateCard, @onDelete) ->
+    @formatInvoicesWithDate @data.invoices
     @addIcon()
     @$node = $ payMethodManage( @data )
     @$el.append @$node
     castShadows @$node
     lexify @$node
 
-    $("input#name"      , @$node).on 'input', (e)=> @onNameInput(e)
-    $("#delete"         , @$node).on 'click', (e)=> @deleteAccountClick(e)
-    $("#update-with-new", @$node).on 'click', (e)=> onReplaceWithNew @data
-    $("#cancel"         , @$node).on 'click', (e)=> onCancel()
-    $("#back-btn"       , @$node).on 'click', (e)=> onCancel()
-    $("#update-extras"  , @$node).on 'click', (e)=> @addExtras()
-    $("#rename"         , @$node).on 'click', (e)=> @onRename @data, $("input#name", @$node).val(), (result)=> @checkForErrors(result, null, true)
-
+    $("input#name"      , @$node).on 'input' , (e)=> @onNameInput(e)
+    $("#delete"         , @$node).on 'click' , (e)=> @deleteAccountClick(e)
+    $("#update-with-new", @$node).on 'click' , (e)=> onReplaceWithNew @data
+    $("#cancel"         , @$node).on 'click' , (e)=> onCancel()
+    $("#back-btn"       , @$node).on 'click' , (e)=> onCancel()
+    $("#update-extras"  , @$node).on 'click' , (e)=> @addExtras()
+    $("#rename"         , @$node).on 'click' , (e)=> @onRename @data, $("input#name", @$node).val(), (result)=> @checkForErrors(result, null, true)
+    $("#invoices"       , @$node).on 'change', (e)=> @showInvoice e.currentTarget.value
   onNameInput : (e) ->
     if e.currentTarget.value != @data.name
       $("#rename", @$node).removeClass 'hidden'
@@ -60,6 +62,18 @@ module.exports = class PayMethodManage
             @data.icon = false
             @data.image = @data.meta.imageURL
 
+  formatInvoicesWithDate : (invoices) ->
+    months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    for invoice in invoices
+      start = new Date invoice.start
+      stop  = new Date invoice.stop
+      invoice.title = "#{start.getDay()} #{months[start.getMonth()]} - #{stop.getDay()} #{months[stop.getMonth()]} : #{stop.getFullYear()}"
+
+
+  showInvoice : (id) ->
+    @retrieveInvoice id, (result)=>
+      if @invoice? then @invoice.destroy()
+      @invoice = new Invoice $('.invoice-holder', @$node), result
 
   destroy : ()->
     @$node.remove()

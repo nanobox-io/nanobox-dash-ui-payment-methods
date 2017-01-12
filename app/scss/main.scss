@@ -2,6 +2,7 @@
 @import 'pay-methods-list';
 @import 'pay-method-create';
 @import 'pay-method-manage';
+@import 'invoice';
 .payment-holder {
   @import "./pay-methods/credit-card";
   @import "./pay-methods/pay-pal";

@@ -1,10 +1,10 @@
-.blue-item.pay-method-manage.lexi-blue.lexi
+.blue-item.pay-method-manage.lexi
   .back-wrapper
     .back-btn#back-btn
       .txt Back
       img.shadow-icon(data-src="close-x")
       
-  .vals
+  .vals.lexi-blue
     if icon
       .icon(class="#{icon}")
         img.shadow-icon(data-src="#{icon}" scalable="true")
@@ -16,28 +16,21 @@
       .label Name
       input#name(value="#{name}")
       .button#rename.lifecycle.hidden Save
-    
-    if kind == "card"
-      .val
-        .label Card
-        .readonly <span>**** **** ****</span> #{meta.lastFourDigits}
-      .update#update-extras Update Card Exp Date or CVV
-    
       .payment-holder
       
   .save-section.hidden
     .cancel#cancel Cancel
     .button.lifecycle.disabled#save-extras Save
   
-  .manage
-    h2 Admin
-    .button#update-with-new
-      .txt Replace with new payment method
-      img.shadow-icon(data-src="replace-payment")
-    .delete#delete 
-      img.shadow-icon(data-src="close-x")
-      .txt Delete Payment Method
-      
+  .invoices
+    h2 Invoices
+    select#invoices
+      option(value="any-hosts") Select An Invoice
+      each invoice in invoices
+        option(value="#{invoice.id}")= invoice.title
+
+    .invoice-holder
+          
   if apps.length != 0
     .sub-items
       h2 Apps billed via this payment method
@@ -45,3 +38,13 @@
         .item
           .name= app.name
           a.manage(href="#{app.href}") Manage
+  
+  .manage
+    h2 Admin
+    .inline
+      .delete#delete 
+        img.shadow-icon(data-src="close-x")
+        .txt Delete Payment Method
+      .button#update-with-new
+        .txt Update or Replace
+        img.shadow-icon(data-src="replace-payment")
