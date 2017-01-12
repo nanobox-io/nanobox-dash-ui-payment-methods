@@ -84,7 +84,7 @@ module.exports = class PayMethodCreate
       if $("input[name='new-or-existing']:checked", @$node).val() == "new" || @paymentMethods.length == 0
         @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, true)
       else
-        @updatePayMethod @getReplaceeData(), nonce, (results)=> @checkForErrors(results, null, true)
+        @updatePayMethod @getReplaceeData(newData), nonce, (results)=> @checkForErrors(results, null, true)
 
 
   # ------------------------------------ Helpers
@@ -104,8 +104,10 @@ module.exports = class PayMethodCreate
     return obj
 
   # Get the data for the payment method we are replacing
-  getReplaceeData : () ->
+  getReplaceeData : (newData) ->
     id = $('select#payment-methods').val()
     for paymentMethod in @paymentMethods
       if paymentMethod.id == id
+        paymentMethod.name = newData.name
+        paymentMethod.kind = newData.kind
         return paymentMethod

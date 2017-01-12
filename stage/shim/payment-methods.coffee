@@ -12,19 +12,17 @@ module.exports = class PaymentMethodsShim
   getInvoice : (paymentMethodId) ->
     paymentMethod  = @getPaymentMethod paymentMethodId
     # Data starts here:
-    state: "errored"
-    id             : "23123" # also used as the invoice number? if not, we'll need to add `invoiceNum`
-    total          : "945.00"
-    coverage_dates :
-      start: "12 Oct 2017"
-      stop:  "12 Nov 2017"
-    payDate : "12 Oct 2017"
-    paidDate : "12 Oct 2017"
-    error: "Unable to Process Card"
-    paymentMethod:
+    state         : "pending"
+    id            : "23123"
+    number        : "23123" # Use this for invoice number (instead of id)
+    total         : "945.00"
+    billingDate   : 1455229913000 # "12 Oct 2017"
+    paidDate      : 1455229913000 # "12 Oct 2017"
+    error         : "Unable to Process Card"
+    paymentMethod :
       kind: paymentMethod.kind
       meta: paymentMethod.meta
-      userCustomData: paymentMethod.userCustomData
+      userInvoiceInfo: paymentMethod.userInvoiceInfo
     appBillingEvents: [
       @getAppBillingEvent(),
       @getAppBillingEvent(),
@@ -42,11 +40,9 @@ module.exports = class PaymentMethodsShim
       name: "distinct-delsie"
     plan:
       name  : "startup"
-      price : "100.00"
     amount       : "100.00"
-    startAt      : "02 Dec"
-    endAt        : "02 Jan"
-    coverageDays : 28
+    startAt      : 1452551513000 #"02 Dec" # TODO : Convert all date strings into timestamps
+    endAt        : 1455229913000
 
   getOtherBillingEvent : () ->
     action       : "credit"
@@ -58,7 +54,8 @@ module.exports = class PaymentMethodsShim
       id    : "work" # Also == the token braintree needs on update
       name  : "Work"
       kind  : "card"
-      userCustomData : "Madison School District 123\nVat ID : 33213451"
+      billingDay : 23
+      userInvoiceInfo : "Some long Company name\nVat ID : 33213451"
       meta  :
         NameOnCard     : "John Doe"
         lastFourDigits : 1234
@@ -72,14 +69,15 @@ module.exports = class PaymentMethodsShim
         {name:"facebook-app", href:"/some/url"}
       ]
       invoices:[
-        {id:'work', start:1452551513000, stop:1455229913000}
-        {id:'zumiez', start:1455229913000, stop:1457735513000}
+        {id:'work', startAt:1452551513000, endAt:1455229913000}
+        {id:'zumiez', startAt:1455229913000, endAt:1457735513000}
       ]
     else if id=="zumiez"
       id    : "zumiez" # Also == the token braintree needs on update
       name  : "Zumiez"
       kind  : "direct"
-      userCustomData : ""
+      billingDay : 2
+      userInvoiceInfo : ""
       meta  :
         accountId       : "john@doe.io"
       apps:[
@@ -91,7 +89,8 @@ module.exports = class PaymentMethodsShim
       id    : "personal" # Also == the token braintree needs on update
       name  : "Personal"
       kind  : "paypal"
-      userCustomData : "I love Paypal"
+      billingDay : 12
+      userInvoiceInfo : "I love Paypal"
       meta  :
         accountId       : "john@doe.io"
       apps:[]

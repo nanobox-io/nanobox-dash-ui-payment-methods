@@ -6,6 +6,7 @@ PayMethodManage = require 'pay-method-manage'
 class PaymentMethods
 
   constructor: ($el, @config) ->
+    nanobox.monthsAr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     $node = $ paymentMethods( {} )
     $el.append $node
     @$holder = $ ".pay-wrapper", $node
@@ -28,7 +29,7 @@ class PaymentMethods
   managePayMethod : (id)=>
     @list.hide()
     @clearErrors()
-    @manager = new PayMethodManage @$holder, @getPaymentMethodDataById(id), @config.clientToken, @checkForErrors, @showList, @config.getInvoice, @createPayMethod, @config.updatePaymentMethodInfo, @config.updatePaymentMethod, @config.deletePaymentMethod, @config.payInvoiceNow
+    @manager = new PayMethodManage @$holder, @getPaymentMethodDataById(id), @config.clientToken, @checkForErrors, @showList, @config.getInvoice, @createPayMethod, @config.updatePaymentMethod, @config.deletePaymentMethod, @config.payInvoiceNow
 
   getPaymentMethodDataById : (id) ->
     for methData in @config.paymentMethods

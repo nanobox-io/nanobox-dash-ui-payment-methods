@@ -15,9 +15,17 @@
     .val
       .label Name
       input#name(value="#{name}")
+    .val
+      .label Billing Day
+      select#billing-day
+        - var k = 1;
+        while k < 29
+          //- Add day, and select if billing day matches `i`
+          option(value="#{k}" selected=(k==billingDay))= k++
+
     .val.optional-info
       .label Optional<br/>Invoice<br/>Info
-      textarea#special-data= userCustomData
+      textarea#special-data= userInvoiceInfo
       
   .save-section.hidden
     .cancel#cancel Cancel

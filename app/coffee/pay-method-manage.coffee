@@ -4,7 +4,7 @@ Invoice         = require 'invoice'
 
 module.exports = class PayMethodManage
 
-  constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, @retrieveInvoice, onReplaceWithNew, @onInfoUpdate, @onUpdateCard, @onDelete, @payInvoiceNow) ->
+  constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, @retrieveInvoice, onReplaceWithNew, @onUpdatePaymentMethod, @onDelete, @payInvoiceNow) ->
     @formatInvoicesWithDate @data.invoices
     @addIcon()
     @$node = $ payMethodManage( @data )
@@ -13,7 +13,8 @@ module.exports = class PayMethodManage
     lexify @$node
 
     $("input#name"           , @$node).on 'input' , (e)=> @onFieldsEdit(e.currentTarget.value, 'name')
-    $("textarea#special-data", @$node).on 'input' , (e)=> @onFieldsEdit(e.currentTarget.value, 'userCustomData')
+    $("textarea#special-data", @$node).on 'input' , (e)=> @onFieldsEdit(e.currentTarget.value, 'userInvoiceInfo')
+    $("select#billing-day"   , @$node).on 'change', (e)=> @onFieldsEdit(Number(e.currentTarget.value), 'billingDay')
     $("#delete"              , @$node).on 'click' , (e)=> @deleteAccountClick(e)
     $("#update-with-new"     , @$node).on 'click' , (e)=> onReplaceWithNew @data
     $("#cancel"              , @$node).on 'click' , (e)=> @restoreInfo()
@@ -26,14 +27,16 @@ module.exports = class PayMethodManage
     if newVal != @data[key]
       $(".save-section", @$node).removeClass 'hidden'
     else
-      if @data.name           != $("input#name", @$node).val() then console.log "a"; return
-      if @data.userCustomData != $("textarea#special-data", @$node).val() then console.log "b"; return
+      if @data.name            != $("input#name",                @$node).val()  then console.log 'a'; return
+      if @data.userInvoiceInfo != $("textarea#special-data",     @$node).val()  then console.log 'b'; return
+      if @data.billingDay      != Number($("select#billing-day", @$node).val()) then console.log 'c'; return
       $(".save-section", @$node).addClass 'hidden'
 
   restoreInfo : () ->
     $(".save-section", @$node).addClass 'hidden'
-    $("input#name", @$node).val @data.name
-    $("textarea#special-data", @$node).val @data.userCustomData
+    $("input#name"           , @$node).val @data.name
+    $("textarea#special-data", @$node).val @data.userInvoiceInfo
+    $("select#billing-day"   , @$node).val @data.billingDay
 
   addExtras : () ->
     if @data.kind == "card"
@@ -45,16 +48,17 @@ module.exports = class PayMethodManage
         if err?
           @checkForErrors {error:err}
         else
-          @onUpdateCard @data, nonce, (results)=>
+          @onUpdatePaymentMethod @data, nonce, (results)=>
             @checkForErrors results, null, true
 
   onCardFieldsReadyForSubmit : () ->
 
   onUpdateInfo : ()->
-    vals =
-      name           : $("input#name", @$node).val()
-      userCustomData : $("textarea#special-data", @$node).val()
-    @onInfoUpdate @data, vals, (result)=> @checkForErrors(result, null, true)
+    @data.name            =        $("input#name"            , @$node).val()
+    @data.userInvoiceInfo =        $("textarea#special-data" , @$node).val()
+    @data.billingDay      = Number $("select#billing-day"    , @$node).val()
+
+    @onUpdatePaymentMethod @data, null, (result)=> @checkForErrors(result, null, true)
 
   deleteAccountClick : (e) ->
     # The first time the user clicks delete, show the confirm message
@@ -78,11 +82,10 @@ module.exports = class PayMethodManage
             @data.image = @data.meta.imageURL
 
   formatInvoicesWithDate : (invoices) ->
-    months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     for invoice in invoices
-      start = new Date invoice.start
-      stop  = new Date invoice.stop
-      invoice.title = "#{start.getDay()} #{months[start.getMonth()]} - #{stop.getDay()} #{months[stop.getMonth()]} : #{stop.getFullYear()}"
+      startAt = new Date invoice.startAt
+      endAt   = new Date invoice.endAt
+      invoice.title = "#{startAt.getDay()} #{nanobox.monthsAr[startAt.getMonth()]} - #{endAt.getDay()} #{nanobox.monthsAr[endAt.getMonth()]} : #{endAt.getFullYear()}"
 
 
   showInvoice : (id) ->

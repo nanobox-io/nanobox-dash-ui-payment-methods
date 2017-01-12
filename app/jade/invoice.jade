@@ -12,9 +12,9 @@
           img.shadow-icon(data-src="invoice-#{state}")
         .txt= stampMeta.text
       .blurb= stampMeta.blurb
-    .charge-date= coverage_dates.stop
-    .invoic-num Ivoice ##{id}
-    .custom-data= paymentMethod.userCustomData
+    .charge-date= _invoiceDate
+    .invoic-num Invoice ##{id}
+    .custom-data= paymentMethod.userInvoiceInfo
     table.line-items.apps
       tr.header
         td App Name
@@ -25,7 +25,7 @@
         tr
           td= event.app.name
           td= event.plan.name
-          td #{event.startAt} - #{event.endAt}
+          td= event.dateRange
           td= event.amount
     
     table.line-items.other

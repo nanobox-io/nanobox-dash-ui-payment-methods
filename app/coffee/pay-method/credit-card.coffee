@@ -4,7 +4,6 @@ PaymentMethod = require 'pay-method/payment-method'
 module.exports = class CreditCard extends PaymentMethod
 
   constructor: (@$el, @authToken, @$submitBtn, @currentVals) ->
-    console.log @$submitBtn
     @creatingFromScratch = !@currentVals?
     @initBraintree()
     $("#submit-cc").on 'click', @tokenizeFields
