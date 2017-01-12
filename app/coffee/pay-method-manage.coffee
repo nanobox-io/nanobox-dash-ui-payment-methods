@@ -4,7 +4,7 @@ Invoice         = require 'invoice'
 
 module.exports = class PayMethodManage
 
-  constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, @retrieveInvoice, onReplaceWithNew, @onRename, @onUpdateCard, @onDelete) ->
+  constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, @retrieveInvoice, onReplaceWithNew, @onInfoUpdate, @onUpdateCard, @onDelete, @payInvoiceNow) ->
     @formatInvoicesWithDate @data.invoices
     @addIcon()
     @$node = $ payMethodManage( @data )
@@ -12,19 +12,28 @@ module.exports = class PayMethodManage
     castShadows @$node
     lexify @$node
 
-    $("input#name"      , @$node).on 'input' , (e)=> @onNameInput(e)
-    $("#delete"         , @$node).on 'click' , (e)=> @deleteAccountClick(e)
-    $("#update-with-new", @$node).on 'click' , (e)=> onReplaceWithNew @data
-    $("#cancel"         , @$node).on 'click' , (e)=> onCancel()
-    $("#back-btn"       , @$node).on 'click' , (e)=> onCancel()
-    $("#update-extras"  , @$node).on 'click' , (e)=> @addExtras()
-    $("#rename"         , @$node).on 'click' , (e)=> @onRename @data, $("input#name", @$node).val(), (result)=> @checkForErrors(result, null, true)
-    $("#invoices"       , @$node).on 'change', (e)=> @showInvoice e.currentTarget.value
-  onNameInput : (e) ->
-    if e.currentTarget.value != @data.name
-      $("#rename", @$node).removeClass 'hidden'
+    $("input#name"           , @$node).on 'input' , (e)=> @onFieldsEdit(e.currentTarget.value, 'name')
+    $("textarea#special-data", @$node).on 'input' , (e)=> @onFieldsEdit(e.currentTarget.value, 'userCustomData')
+    $("#delete"              , @$node).on 'click' , (e)=> @deleteAccountClick(e)
+    $("#update-with-new"     , @$node).on 'click' , (e)=> onReplaceWithNew @data
+    $("#cancel"              , @$node).on 'click' , (e)=> @restoreInfo()
+    $("#back-btn"            , @$node).on 'click' , (e)=> onCancel()
+    $("#update-extras"       , @$node).on 'click' , (e)=> @addExtras()
+    $("#save-extras"         , @$node).on 'click' , (e)=> @onUpdateInfo()
+    $("#invoices"            , @$node).on 'change', (e)=> @showInvoice e.currentTarget.value
+
+  onFieldsEdit : (newVal, key) ->
+    if newVal != @data[key]
+      $(".save-section", @$node).removeClass 'hidden'
     else
-      $("#rename", @$node).addClass 'hidden'
+      if @data.name           != $("input#name", @$node).val() then console.log "a"; return
+      if @data.userCustomData != $("textarea#special-data", @$node).val() then console.log "b"; return
+      $(".save-section", @$node).addClass 'hidden'
+
+  restoreInfo : () ->
+    $(".save-section", @$node).addClass 'hidden'
+    $("input#name", @$node).val @data.name
+    $("textarea#special-data", @$node).val @data.userCustomData
 
   addExtras : () ->
     if @data.kind == "card"
@@ -40,6 +49,12 @@ module.exports = class PayMethodManage
             @checkForErrors results, null, true
 
   onCardFieldsReadyForSubmit : () ->
+
+  onUpdateInfo : ()->
+    vals =
+      name           : $("input#name", @$node).val()
+      userCustomData : $("textarea#special-data", @$node).val()
+    @onInfoUpdate @data, vals, (result)=> @checkForErrors(result, null, true)
 
   deleteAccountClick : (e) ->
     # The first time the user clicks delete, show the confirm message
@@ -71,9 +86,11 @@ module.exports = class PayMethodManage
 
 
   showInvoice : (id) ->
-    @retrieveInvoice id, (result)=>
+    return if @currentInvoiceId == id || id == ""
+    @currentInvoiceId = id
+    @retrieveInvoice @currentInvoiceId, (result)=>
       if @invoice? then @invoice.destroy()
-      @invoice = new Invoice $('.invoice-holder', @$node), result
+      @invoice = new Invoice $('.invoice-holder', @$node), result, @checkForErrors, @payInvoiceNow
 
   destroy : ()->
     @$node.remove()

@@ -11,17 +11,20 @@ module.exports = class PaymentMethodsShim
 
   getInvoice : (paymentMethodId) ->
     paymentMethod  = @getPaymentMethod paymentMethodId
-
+    # Data starts here:
+    state: "errored"
     id             : "23123" # also used as the invoice number? if not, we'll need to add `invoiceNum`
-    userCustomData : "Some Corporation\nVat ID : 33213451"
     total          : "945.00"
     coverage_dates :
       start: "12 Oct 2017"
       stop:  "12 Nov 2017"
-    state: "paid"
+    payDate : "12 Oct 2017"
+    paidDate : "12 Oct 2017"
+    error: "Unable to Process Card"
     paymentMethod:
       kind: paymentMethod.kind
       meta: paymentMethod.meta
+      userCustomData: paymentMethod.userCustomData
     appBillingEvents: [
       @getAppBillingEvent(),
       @getAppBillingEvent(),
@@ -55,6 +58,7 @@ module.exports = class PaymentMethodsShim
       id    : "work" # Also == the token braintree needs on update
       name  : "Work"
       kind  : "card"
+      userCustomData : "Madison School District 123\nVat ID : 33213451"
       meta  :
         NameOnCard     : "John Doe"
         lastFourDigits : 1234
@@ -75,6 +79,7 @@ module.exports = class PaymentMethodsShim
       id    : "zumiez" # Also == the token braintree needs on update
       name  : "Zumiez"
       kind  : "direct"
+      userCustomData : ""
       meta  :
         accountId       : "john@doe.io"
       apps:[
@@ -86,6 +91,7 @@ module.exports = class PaymentMethodsShim
       id    : "personal" # Also == the token braintree needs on update
       name  : "Personal"
       kind  : "paypal"
+      userCustomData : "I love Paypal"
       meta  :
         accountId       : "john@doe.io"
       apps:[]

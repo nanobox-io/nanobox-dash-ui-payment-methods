@@ -15,21 +15,23 @@
     .val
       .label Name
       input#name(value="#{name}")
-      .button#rename.lifecycle.hidden Save
-      .payment-holder
+    .val.optional-info
+      .label Optional<br/>Invoice<br/>Info
+      textarea#special-data= userCustomData
       
   .save-section.hidden
     .cancel#cancel Cancel
-    .button.lifecycle.disabled#save-extras Save
+    .button.lifecycle#save-extras Save
   
-  .invoices
-    h2 Invoices
-    select#invoices
-      option(value="any-hosts") Select An Invoice
-      each invoice in invoices
-        option(value="#{invoice.id}")= invoice.title
+  if invoices.length > 0
+    .invoices
+      h2 Invoices
+      select#invoices
+        option(value="") Select An Invoice
+        each invoice in invoices
+          option(value="#{invoice.id}")= invoice.title
 
-    .invoice-holder
+      .invoice-holder
           
   if apps.length != 0
     .sub-items
@@ -44,7 +46,7 @@
     .inline
       .delete#delete 
         img.shadow-icon(data-src="close-x")
-        .txt Delete Payment Method
+        .txt Delete 
       .button#update-with-new
         .txt Update or Replace
         img.shadow-icon(data-src="replace-payment")

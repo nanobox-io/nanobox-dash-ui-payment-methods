@@ -7,7 +7,17 @@
     .update          {color:white; font-size:16px; font-style:italic; text-decoration:underline; margin-left:auto; display: block; margin-top:10px; cursor:pointer;
       &.hidden       {display:none; }
     }
-    .button          {background:white; }
+    .button          {background:#1D8ACD;
+
+    }
+    .optional-info   {position: relative; padding-bottom:5em;
+      .label         {margin-top:-42px;
+        &:after      {content:""}
+      }
+      &:after        {position: absolute; font-size: 16px; color:#006ead; font-style:italic; width:430px; right:-3px; top:6em;
+                      content:"If you have additional information legally required on your invoices such as company name, address, VAT id, etc., add it here, and it will appear on your emailed and printed invoices."}
+      textarea       {flex-grow: 2; height:5em}
+    }
   }
   .icon, .image      {padding:10px; width:80px; height:80px; background: white; border-radius: 50%; display: flex; align-items: center;  position: absolute; top:30px; left:20px;
     &.pay-paypal     {padding:17px; }
@@ -18,13 +28,19 @@
   h2                 {margin: 65px 0 16px !important; padding:10px 0;  }
   .payment-holder    {margin-left:50px; }
   .manage            {display: flex; flex-direction: column; align-items: flex-start;
-    .inline          {display: flex; align-items: center; justify-content: flex-end; width: 100%; }
+    .inline          {display: flex; align-items: center; justify-content: space-between; width: 100%; }
     #update-with-new {
       svg            {margin-left:10px; }
     }
+    .button:hover    {background: #1D8ACD;
+      .txt           {color:white;}
+    }
     .delete          {margin-right:initial;
+      .txt           {margin-left: 0px;}
       &.not-empty    {display:inline-flex; pointer-events: none;
-        &:after      {content: "(To Delete, first remove all apps from this payment method)"}
+        svg *        {fill:#CCC}
+        .txt         {color:#CCC;}
+        &:after     {content: "To Delete, first remove all apps from this payment method"; }
       }
     }
   }

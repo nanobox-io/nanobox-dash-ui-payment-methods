@@ -1,8 +1,9 @@
-.invoice                {@include selectable; background: white; padding:30px; color:#006ead; font-style:italic; font-size:16px; margin-top:30px;
+.invoice                {background: white; padding:30px; color:#006ead; font-style:italic; font-size:16px; margin-top:30px;  user-select: initial; position: relative;
   .charge-date          {font-size:26px; font-style:normal; font-weight:$bold; margin-bottom:20px; }
   .custom-data,
-  .invoic-num           {white-space: pre; line-height:1.4;}
+  .invoic-num           {white-space: pre; line-height:1.4; z-index: 10; }
   table.line-items      {margin-top:30px; width:100%;
+    &:first-of-type     {margin-top:90px; }
     tr                  {border-bottom:solid 1px #A9D8EE;
       &.header          {font-size:13px; color:#90cce8; }
       td                {text-align: center; padding: 8px 0;
@@ -17,4 +18,34 @@
       &:before{content:"Total : $"}
     }
   }
+  $stamp-border: solid 3px #00adfe;
+  .stamp{border:$stamp-border; display: inline-block; position: absolute; right:40px; top:40px; transform: rotateZ(-6deg);
+    .status{display: flex; align-items: center; font-size: 64px; text-transform: uppercase; font-weight: bold; font-style: normal; justify-content: space-around; border-bottom:$stamp-border;
+      .stamp-icon{padding:10px; display: flex; padding:0 20px;  }
+      .txt{border-left:$stamp-border; padding:0 20px 0 20px; text-align: center;}
+    }
+    .blurb{padding:5px 12px; text-align: center;}
+    $paid-color:#00bf1d;
+    $pending-color:#00adfe;
+    $errored-color:#f3314d;
+    &.paid{border-color:$paid-color; color:$paid-color;
+      .status, .txt{border-color:$paid-color;}
+    }
+    &.pending{border-color:$pending-color; color:$pending-color;
+      .status, .txt{border-color:$pending-color;}
+    }
+    &.errored{border-color:$errored-color; color:$errored-color;
+      .status, .txt{border-color:$errored-color;}
+    }
+  }
+}
+
+@media print {
+  *        {visibility: hidden; }
+  .invoice  {position: fixed; top:0; width:100%; left:0}
+  .invoice, .invoice * {visibility: visible !important; }
+}
+
+.invoice-actions{display:flex; justify-content: flex-end; margin-top:10px;
+  .button       {margin-left:10px; }
 }

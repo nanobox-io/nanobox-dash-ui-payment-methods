@@ -5,8 +5,8 @@ Direct           = require 'pay-method/direct'
 
 module.exports = class PayMethodCreate
 
-  constructor: ($el, @paymentMethods, @destroyCb, @brainTreeAuthoToken, currentItemData, @createPayMethod, @replacePaymentMethod, @checkForErrors, @clearErrors) ->
-    curItemData = @prepareCurrentData currentItemData, @paymentMethods
+  constructor: ($el, @paymentMethods, @destroyCb, @brainTreeAuthoToken, @currentItemData, @createPayMethod, @updatePayMethod, @checkForErrors, @clearErrors) ->
+    curItemData = @prepareCurrentData @currentItemData, @paymentMethods
     @$node = $ payMethodCreate( {apps:[], paymentMethods:@paymentMethods, currentData:curItemData} )
     @$paymentHolder = $ ".payment-holder", @$node
     $el.append @$node
@@ -22,6 +22,9 @@ module.exports = class PayMethodCreate
       @switchPaymentMethod e.currentTarget.value
 
     $("#back-btn", @$node).on 'click', @destroyCb
+
+    $('select#payment-methods').on 'change', (e)=>
+      @updateDefaultName()
 
     # Default
     kind = if curItemData.replaceExisting then curItemData.kind else 'card'
@@ -50,8 +53,12 @@ module.exports = class PayMethodCreate
     $existingOption = $(".option#existing")
     if val == 'existing'
       $existingOption.removeClass 'disabled'
+      @updateDefaultName()
     else
       $existingOption.addClass 'disabled'
+
+  updateDefaultName : () ->
+    $("input#name", @$node).val @getReplaceeData().name
 
   removeOldPayMethod : () ->
     return if !@paymentMethod?
@@ -72,13 +79,12 @@ module.exports = class PayMethodCreate
         name : $("input#name", @$node).val()
         kind : $("input[name='pay-methods']:checked", @$node).val()
 
-      newData[key] = val for key, val of extraData
-
+      # newData[key] = val for key, val of extraData
       # New payment method from scratch
       if $("input[name='new-or-existing']:checked", @$node).val() == "new" || @paymentMethods.length == 0
         @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, true)
       else
-        @replacePaymentMethod @getReplaceeData(), newData, nonce, (results)=> @checkForErrors(results, null, true)
+        @updatePayMethod @getReplaceeData(), nonce, (results)=> @checkForErrors(results, null, true)
 
 
   # ------------------------------------ Helpers

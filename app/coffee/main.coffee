@@ -17,7 +17,7 @@ class PaymentMethods
     @clearErrors()
     @list.hide()
     @manager?.destroy()
-    @creator = new PayMethodCreate @$holder, @config.paymentMethods, @showList, @config.clientToken, data, @config.createPaymentMethod, @config.replacePaymentMethod, @checkForErrors, @clearErrors
+    @creator = new PayMethodCreate @$holder, @config.paymentMethods, @showList, @config.clientToken, data, @config.createPaymentMethod, @config.updatePaymentMethod, @checkForErrors, @clearErrors
 
   showList : () =>
     @clearErrors()
@@ -28,24 +28,28 @@ class PaymentMethods
   managePayMethod : (id)=>
     @list.hide()
     @clearErrors()
-    @manager = new PayMethodManage @$holder, @getPaymentMethodDataById(id), @config.clientToken, @checkForErrors, @showList, @config.getInvoice, @createPayMethod, @config.renamePaymentMethod, @config.updatePaymentMethod, @config.deletePaymentMethod
+    @manager = new PayMethodManage @$holder, @getPaymentMethodDataById(id), @config.clientToken, @checkForErrors, @showList, @config.getInvoice, @createPayMethod, @config.updatePaymentMethodInfo, @config.updatePaymentMethod, @config.deletePaymentMethod, @config.payInvoiceNow
 
   getPaymentMethodDataById : (id) ->
     for methData in @config.paymentMethods
       if methData.id == id
         return methData
 
-  # TODO
   checkForErrors : (results, cb, doRefreshOnSuccess) =>
     isErrorFree = !results.error?
     if isErrorFree
       @clearErrors()
     else
       @addError results.error
+      @scrollToTop()
 
     if cb? then cb(isErrorFree)
     if isErrorFree && doRefreshOnSuccess then @refreshPage()
 
+  scrollToTop : () =>
+    if document.body.scrollTop != 0 || document.documentElement.scrollTop != 0
+      window.scrollBy 0, -50
+      requestAnimationFrame @scrollToTop
 
   addError : (error) =>
     @$errors.text(error).removeClass 'hidden'

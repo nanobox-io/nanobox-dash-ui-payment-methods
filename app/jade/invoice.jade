@@ -1,28 +1,41 @@
-.invoice
-  .charge-date= coverage_dates.stop
-  .invoic-num Ivoice ##{id}
-  .custom-data= userCustomData
-  table.line-items.apps
-    tr.header
-      td App Name
-      td plan
-      td date range
-      td 
-    each event in appBillingEvents
-      tr
-        td= event.app.name
-        td= event.plan.name
-        td #{event.startAt} - #{event.endAt}
-        td= event.amount
-  
-  table.line-items.other
-    tr.header
-      td Additional Items
-      td 
-    each event in otherBillingEvents
-      tr
-        td= event.description
-        td= event.amount
-        
-  .total-cost
-    .txt= total
+.invoice-wrap
+  .invoice-actions
+    .button.pay-now.hidden#pay-now Pay Now
+    .button.errored.hidden#errored Retry Payment
+    .button.print#print Print
+
+
+  .invoice
+    .stamp(class="#{state}")
+      .status
+        .stamp-icon
+          img.shadow-icon(data-src="invoice-#{state}")
+        .txt= stampMeta.text
+      .blurb= stampMeta.blurb
+    .charge-date= coverage_dates.stop
+    .invoic-num Ivoice ##{id}
+    .custom-data= paymentMethod.userCustomData
+    table.line-items.apps
+      tr.header
+        td App Name
+        td plan
+        td date range
+        td 
+      each event in appBillingEvents
+        tr
+          td= event.app.name
+          td= event.plan.name
+          td #{event.startAt} - #{event.endAt}
+          td= event.amount
+    
+    table.line-items.other
+      tr.header
+        td Additional Items
+        td 
+      each event in otherBillingEvents
+        tr
+          td= event.description
+          td= event.amount
+          
+    .total-cost
+      .txt= total
