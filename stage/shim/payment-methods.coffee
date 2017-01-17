@@ -19,9 +19,10 @@ module.exports = class PaymentMethodsShim
     billingDate   : 1455229913000 # "12 Oct 2017"
     paidDate      : 1455229913000 # "12 Oct 2017"
     error         : "Unable to Process Card"
+    paidVia       :
+      kind: 'card'
+      meta:{lastFourDigits: 1234}
     paymentMethod :
-      kind: paymentMethod.kind
-      meta: paymentMethod.meta
       userInvoiceInfo: paymentMethod.userInvoiceInfo
     appBillingEvents: [
       @getAppBillingEvent(),

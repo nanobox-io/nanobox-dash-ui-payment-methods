@@ -25,7 +25,7 @@ module.exports = class Invoice
     castShadows @$node
 
   formatBillingEventDates : (events)->
-    dayMonth = (date)-> "#{('0' + date.getDay()).slice(-2)} #{nanobox.monthsAr[date.getMonth()]}"
+    dayMonth = (date)-> "#{('0' + date.getDate()).slice(-2)} #{nanobox.monthsAr[date.getMonth()]}"
     for event in events
       event.dateRange = "#{dayMonth(new Date(event.startAt))} - #{dayMonth(new Date(event.endAt))}"
 
@@ -36,18 +36,19 @@ module.exports = class Invoice
           text  : "Paid"
           blurb : @getPaidBlurb()
       when 'pending'
+        date = new Date(@invoiceData.billingDate)
         @invoiceData.stampMeta =
           text  : "Open"
-          blurb : "Scheduled to charge on #{@invoiceData.payDate}"
+          blurb : "Scheduled to charge on : #{nanobox.monthsAr[date.getMonth()]} #{date.getDate()}"
       when 'errored'
         @invoiceData.stampMeta =
           text  : "Error"
           blurb : @invoiceData.error
 
   getPaidBlurb : ()->
-    switch @invoiceData.paymentMethod.kind
-      when 'card'   then return "via card ending in #{@invoiceData.paymentMethod.meta.lastFourDigits}"
-      when 'paypal' then return "via paypal account #{@invoiceData.paymentMethod.meta.accountId}"
+    switch @invoiceData.paidVia.kind
+      when 'card'   then return "via card ending in #{@invoiceData.paidVia.meta.lastFourDigits}"
+      when 'paypal' then return "via paypal account #{@invoiceData.paidVia.meta.accountId}"
       when 'direct' then return "via Direct Transfer"
       else               return "Paid in Full"
 
@@ -58,7 +59,7 @@ module.exports = class Invoice
       @invoiceData._invoiceDate = @invoiceData.billingDate
 
     date = new Date @invoiceData._invoiceDate
-    @invoiceData._invoiceDate = "#{date.getDay()} #{nanobox.monthsAr[date.getMonth()]} #{date.getFullYear()}"
+    @invoiceData._invoiceDate = "#{date.getDate()} #{nanobox.monthsAr[date.getMonth()]} #{date.getFullYear()}"
 
 
 

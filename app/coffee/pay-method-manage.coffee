@@ -14,7 +14,6 @@ module.exports = class PayMethodManage
 
     $("input#name"           , @$node).on 'input' , (e)=> @onFieldsEdit(e.currentTarget.value, 'name')
     $("textarea#special-data", @$node).on 'input' , (e)=> @onFieldsEdit(e.currentTarget.value, 'userInvoiceInfo')
-    $("select#billing-day"   , @$node).on 'change', (e)=> @onFieldsEdit(Number(e.currentTarget.value), 'billingDay')
     $("#delete"              , @$node).on 'click' , (e)=> @deleteAccountClick(e)
     $("#update-with-new"     , @$node).on 'click' , (e)=> onReplaceWithNew @data
     $("#cancel"              , @$node).on 'click' , (e)=> @restoreInfo()
@@ -22,6 +21,8 @@ module.exports = class PayMethodManage
     $("#update-extras"       , @$node).on 'click' , (e)=> @addExtras()
     $("#save-extras"         , @$node).on 'click' , (e)=> @onUpdateInfo()
     $("#invoices"            , @$node).on 'change', (e)=> @showInvoice e.currentTarget.value
+    # If ever needed, uncomment to allow them to change the monthiversary
+    # $("select#billing-day"   , @$node).on 'change', (e)=> @onFieldsEdit(Number(e.currentTarget.value), 'billingDay')
 
   onFieldsEdit : (newVal, key) ->
     if newVal != @data[key]
@@ -29,14 +30,16 @@ module.exports = class PayMethodManage
     else
       if @data.name            != $("input#name",                @$node).val()  then console.log 'a'; return
       if @data.userInvoiceInfo != $("textarea#special-data",     @$node).val()  then console.log 'b'; return
-      if @data.billingDay      != Number($("select#billing-day", @$node).val()) then console.log 'c'; return
+      # Uncomment to allow billing day change
+      # if @data.billingDay      != Number($("select#billing-day", @$node).val()) then console.log 'c'; return
       $(".save-section", @$node).addClass 'hidden'
 
   restoreInfo : () ->
     $(".save-section", @$node).addClass 'hidden'
     $("input#name"           , @$node).val @data.name
     $("textarea#special-data", @$node).val @data.userInvoiceInfo
-    $("select#billing-day"   , @$node).val @data.billingDay
+    # Uncomment to allow billing day change
+    # $("select#billing-day"   , @$node).val @data.billingDay
 
   addExtras : () ->
     if @data.kind == "card"
@@ -56,7 +59,8 @@ module.exports = class PayMethodManage
   onUpdateInfo : ()->
     @data.name            =        $("input#name"            , @$node).val()
     @data.userInvoiceInfo =        $("textarea#special-data" , @$node).val()
-    @data.billingDay      = Number $("select#billing-day"    , @$node).val()
+    # Uncomment to allow billing day change
+    # @data.billingDay      = Number $("select#billing-day"    , @$node).val()
 
     @onUpdatePaymentMethod @data, null, (result)=> @checkForErrors(result, null, true)
 
@@ -85,7 +89,7 @@ module.exports = class PayMethodManage
     for invoice in invoices
       startAt = new Date invoice.startAt
       endAt   = new Date invoice.endAt
-      invoice.title = "#{startAt.getDay()} #{nanobox.monthsAr[startAt.getMonth()]} - #{endAt.getDay()} #{nanobox.monthsAr[endAt.getMonth()]} : #{endAt.getFullYear()}"
+      invoice.title = "#{startAt.getDate()} #{nanobox.monthsAr[startAt.getMonth()]} - #{endAt.getDate()} #{nanobox.monthsAr[endAt.getMonth()]} : #{endAt.getFullYear()}"
 
 
   showInvoice : (id) ->
