@@ -2,23 +2,30 @@ paymentMethods  = require 'jade/payment-methods-parent'
 PayMethodsList  = require 'pay-methods-list'
 PayMethodCreate = require 'pay-method-create'
 PayMethodManage = require 'pay-method-manage'
+MicroChooser    = require 'micro-chooser'
 
 class PaymentMethods
 
-  constructor: ($el, @config) ->
+  constructor: (@$el, @config, doBuild=true) ->
     nanobox.monthsAr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-    $node = $ paymentMethods( {} )
-    $el.append $node
-    @$holder = $ ".pay-wrapper", $node
-    @$errors = $ ".errors", $node
 
-    @list = new PayMethodsList @$holder, @config.paymentMethods, @createPayMethod, @managePayMethod
+    if doBuild
+      $node = $ paymentMethods( {} )
+      @$el.append $node
+      @$holder = $ ".pay-wrapper", $node
+      @$errors = $ ".errors", $node
+      @list = new PayMethodsList @$holder, @config.paymentMethods, @createPayMethod, @managePayMethod
 
   createPayMethod : (data) =>
     @clearErrors()
     @list.hide()
     @manager?.destroy()
     @creator = new PayMethodCreate @$holder, @config.paymentMethods, @showList, @config.clientToken, data, @config.createPaymentMethod, @config.updatePaymentMethod, @checkForErrors, @clearErrors
+
+  createMicroChooser : (currentPayMethodId, changeCb) ->
+    @microChooser = new MicroChooser(@$el, @config.paymentMethods, currentPayMethodId, changeCb)
+
+  getMicroChooserVal : ()-> @microChooser.getVal()
 
   showList : () =>
     @clearErrors()

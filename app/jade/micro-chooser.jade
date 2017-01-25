@@ -1,0 +1,4 @@
+.micro-chooser.lexi
+  select
+    each payMethod in paymentMethods
+      option(value="#{payMethod.id}")= payMethod.name

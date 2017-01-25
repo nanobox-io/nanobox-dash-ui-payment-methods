@@ -20,4 +20,6 @@ window.testPaymentMethodsLocally = () ->
     getInvoice              : (id, cb) -> cb shim.getInvoice(id)
     # Settle an Invoice
     payInvoiceNow           : (id, cb) -> console.log "paying invoice #{id}"; cb({})
-  app = new nanobox.PaymentMethods $(".stage-holder"), config
+
+  window.payMethods = new nanobox.PaymentMethods $(".stage-holder"), config
+  # payMethods.createMicroChooser 'zumiez', (newPayMethod)-> console.log newPayMethod
