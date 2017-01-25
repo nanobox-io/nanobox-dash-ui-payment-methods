@@ -23,6 +23,7 @@ class PaymentMethods
     @creator = new PayMethodCreate @$holder, @config.paymentMethods, @showList, @config.clientToken, data, @config.createPaymentMethod, @config.updatePaymentMethod, @checkForErrors, @clearErrors
 
   createMicroChooser : (currentPayMethodId, changeCb) ->
+    return if @config.paymentMethods.length == 0
     @microChooser = new MicroChooser(@$el, @config.paymentMethods, currentPayMethodId, changeCb)
 
   getMicroChooserVal : ()-> @microChooser.getVal()
