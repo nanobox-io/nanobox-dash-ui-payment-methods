@@ -7,9 +7,7 @@
     .update          {color:white; font-size:16px; font-style:italic; text-decoration:underline; margin-left:auto; display: block; margin-top:10px; cursor:pointer;
       &.hidden       {display:none; }
     }
-    .button          {background:#1D8ACD;
-
-    }
+    .button          {background:#1D8ACD;}
     .optional-info   {position: relative; padding-bottom:5em;
       .label         {margin-top:-42px;
         &:after      {content:""}
@@ -44,4 +42,5 @@
       }
     }
   }
+  .cancel           {color:#09A6EC; margin-right:30px; cursor:pointer; }
 }
