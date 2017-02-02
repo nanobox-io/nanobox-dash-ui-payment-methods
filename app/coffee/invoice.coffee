@@ -25,7 +25,7 @@ module.exports = class Invoice
     castShadows @$node
 
   formatBillingEventDates : (events)->
-    dayMonth = (date)-> "#{('0' + date.getDate()).slice(-2)} #{nanobox.monthsAr[date.getMonth()]}"
+    dayMonth = (date)-> "#{('0' + date.getUTCDate()).slice(-2)} #{nanobox.monthsAr[date.getUTCMonth()]}"
     for event in events
       event.dateRange = "#{dayMonth(new Date(event.startAt))} - #{dayMonth(new Date(event.endAt))}"
 
@@ -39,7 +39,7 @@ module.exports = class Invoice
         date = new Date(@invoiceData.billingDate)
         @invoiceData.stampMeta =
           text  : "Open"
-          blurb : "Scheduled to charge on : #{nanobox.monthsAr[date.getMonth()]} #{date.getDate()}"
+          blurb : "Scheduled to charge on : #{nanobox.monthsAr[date.getUTCMonth()]} #{date.getUTCDate()}"
       when 'errored'
         @invoiceData.stampMeta =
           text  : "Error"
@@ -59,7 +59,7 @@ module.exports = class Invoice
       @invoiceData._invoiceDate = @invoiceData.billingDate
 
     date = new Date @invoiceData._invoiceDate
-    @invoiceData._invoiceDate = "#{date.getDate()} #{nanobox.monthsAr[date.getMonth()]} #{date.getFullYear()}"
+    @invoiceData._invoiceDate = "#{date.getUTCDate()} #{nanobox.monthsAr[date.getUTCMonth()]} #{date.getFullYear()}"
 
 
 

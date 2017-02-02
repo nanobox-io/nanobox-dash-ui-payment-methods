@@ -16,7 +16,7 @@ window.testPaymentMethodsLocally = () ->
     # Delete payment method
     deletePaymentMethod     : (data, cb)-> console.log 'delete payment method'; console.log data; cb({error:"nope, can't do it"})
     # Retrieve Invoice
-    getInvoice              : (id, cb) -> cb shim.getInvoice(id)
+    getInvoice              : (id, cb) -> cb window.paymentMethodShim.getInvoice(id)
     # Settle an Invoice
     payInvoiceNow           : (id, cb) -> console.log "paying invoice #{id}"; cb({})
 

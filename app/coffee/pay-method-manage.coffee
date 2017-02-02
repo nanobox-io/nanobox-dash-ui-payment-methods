@@ -89,7 +89,7 @@ module.exports = class PayMethodManage
     for invoice in invoices
       startAt = new Date invoice.startAt
       endAt   = new Date invoice.endAt
-      invoice.title = "#{startAt.getDate()} #{nanobox.monthsAr[startAt.getMonth()]} - #{endAt.getDate()} #{nanobox.monthsAr[endAt.getMonth()]} : #{endAt.getFullYear()}"
+      invoice.title = "#{startAt.getDate()} #{nanobox.monthsAr[startAt.getUTCMonth()]} - #{endAt.getDate()} #{nanobox.monthsAr[endAt.getUTCMonth()]} : #{endAt.getFullYear()}"
 
 
   showInvoice : (id) ->
