@@ -12,14 +12,22 @@ module.exports = class Invoice
     @$el.append @$node
 
     if @invoiceData.state == 'pending'
-      $("#pay-now", @$node).removeClass 'hidden'
-      $("#pay-now", @$node).on 'click', ()=>
-        @payNow @invoiceData.id, (results)=> @checkForErrors(results, null, true)
+      $payNow = $("#pay-now", @$node)
+      $payNow.removeClass 'hidden'
+      $payNow.on 'click', ()=>
+        $payNow.addClass 'ing'
+        @payNow @invoiceData.id, (results)=>
+          # $payNow.removeClass 'ing'
+          @checkForErrors(results, null, true)
 
     else if @invoiceData.state == 'errored'
-      $("#errored", @$node).removeClass 'hidden'
-      $("#errored", @$node).on 'click', ()=>
-        @payNow @invoiceData.id, (results)=> @checkForErrors(results, null, true)
+      $errored = $("#errored", @$node)
+      $errored.removeClass 'hidden'
+      $errored.on 'click', ()=>
+        $errored.addClass 'ing'
+        @payNow @invoiceData.id, (results)=>
+          $errored.removeClass 'ing'
+          @checkForErrors(results, null, true)
 
     $("#print", @$el).on 'click', ()=> window.print()
     castShadows @$node

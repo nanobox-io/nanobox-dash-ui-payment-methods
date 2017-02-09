@@ -41,7 +41,7 @@ module.exports = class PayPal extends PaymentMethod
           # Tokenize here!
           paypalInstance.tokenize {
             flow: 'vault', # This enables the Vault flow
-            billingAgreementDescription: 'We need to explain to them that they will be billed monthly here...',
+            billingAgreementDescription: 'Any apps you add to this paypal account will be billed once monthly.',
             locale: 'en_US',
           },
             (err, tokenizationPayload)=> @onSubmitComplete err, tokenizationPayload.nonce, {deviceData : @deviceData}

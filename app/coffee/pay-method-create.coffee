@@ -41,6 +41,7 @@ module.exports = class PayMethodCreate
         @paymentMethod = new CreditCard @$paymentHolder, @brainTreeAuthoToken, @$saveBtn, null
         @$saveBtn.removeClass 'hidden'
         @$saveBtn.on 'click', ()=>
+          @$saveBtn.addClass 'ing'
           @clearErrors()
           @paymentMethod.tokenizeFields(@onSubmitComplete)
 
