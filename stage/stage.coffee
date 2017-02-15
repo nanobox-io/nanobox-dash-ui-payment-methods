@@ -21,4 +21,5 @@ window.testPaymentMethodsLocally = () ->
     payInvoiceNow           : (id, cb) -> console.log "paying invoice #{id}"; cb({})
 
   window.payMethods = new nanobox.PaymentMethods $(".stage-holder"), config, true
+  payMethods.displayInvoice 'work', 'work'
   # payMethods.createMicroChooser 'zumiez', (newPayMethod)-> console.log newPayMethod

@@ -99,6 +99,12 @@ module.exports = class PayMethodManage
       if @invoice? then @invoice.destroy()
       @invoice = new Invoice $('.invoice-holder', @$node), result, @checkForErrors, @payInvoiceNow
 
+  scrollToInvoice : ()->
+    setTimeout ()=>
+      $('.invoice-holder', @$node)[0].scrollIntoView()
+    ,
+      1200
+
   destroy : ()->
     @$node.remove()
 

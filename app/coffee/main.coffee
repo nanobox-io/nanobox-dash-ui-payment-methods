@@ -34,6 +34,11 @@ class PaymentMethods
     @manager?.destroy()
     @list.show()
 
+  displayInvoice : (paymentMethodId, invoiceId) ->
+    @managePayMethod paymentMethodId
+    @manager.showInvoice invoiceId
+    @manager.scrollToInvoice()
+
   managePayMethod : (id)=>
     @list.hide()
     @clearErrors()
