@@ -14,17 +14,17 @@ class PaymentMethods
       @$el.append $node
       @$holder = $ ".pay-wrapper", $node
       @$errors = $ ".errors", $node
-      @list = new PayMethodsList @$holder, @config.paymentMethods, @createPayMethod, @managePayMethod
+      @list = new PayMethodsList @$holder, @config.paymentMethod, @createPayMethod, @managePayMethod
 
   createPayMethod : (data) =>
     @clearErrors()
     @list.hide()
     @manager?.destroy()
-    @creator = new PayMethodCreate @$holder, @config.paymentMethods, @showList, @config.clientToken, data, @config.createPaymentMethod, @config.updatePaymentMethod, @checkForErrors, @clearErrors
+    @creator = new PayMethodCreate @$holder, @config.paymentMethod, @showList, @config.clientToken, data, @config.createPaymentMethod, @config.updatePaymentMethod, @checkForErrors, @clearErrors
 
   createMicroChooser : (currentPayMethodId, changeCb) ->
-    return if @config.paymentMethods.length == 0
-    @microChooser = new MicroChooser(@$el, @config.paymentMethods, currentPayMethodId, changeCb)
+    return if @config.paymentMethod.length == 0
+    @microChooser = new MicroChooser(@$el, @config.paymentMethod, currentPayMethodId, changeCb)
 
   getMicroChooserVal : ()-> @microChooser.getVal()
 
@@ -45,7 +45,7 @@ class PaymentMethods
     @manager = new PayMethodManage @$holder, @getPaymentMethodDataById(id), @config.clientToken, @checkForErrors, @showList, @config.getInvoice, @createPayMethod, @config.updatePaymentMethod, @config.deletePaymentMethod, @config.payInvoiceNow
 
   getPaymentMethodDataById : (id) ->
-    for methData in @config.paymentMethods
+    for methData in @config.paymentMethod
       if methData.id == id
         return methData
 

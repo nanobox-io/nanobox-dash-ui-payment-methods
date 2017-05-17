@@ -21,11 +21,12 @@
           else if item.kind == "paypal"
             .label Paypal
             .val=item.meta.accountId
-          .label TotalApps
-          .val=item.apps.length
+          //- .label TotalApps
+          //- .val=item.apps.length
             
       .manage.button(data-id="#{item.id}") Manage
-  
-  .add-new#add-payment-method
-    img.shadow-icon(data-src="big-add")
-    .txt Add a Payment Method
+
+  if paymentMethods.length == 0
+    .add-new#add-payment-method
+      img.shadow-icon(data-src="big-add")
+      .txt Add a Payment Method

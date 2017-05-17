@@ -1,15 +1,15 @@
 .blue-item.lexi.pay-method-create
   .new-or-existing
-    if paymentMethods.length >0
-      .option
-        label New
-          input(type="radio" name="new-or-existing" value="new" checked=!currentData.replaceExisting)
-      .option#existing(class=currentData.replaceExisting? "" : "disabled")
-        label Replace Existing : 
-          input(type="radio" name="new-or-existing" value="existing" checked=currentData.replaceExisting)
-        select#payment-methods
-          each method in paymentMethods
-            option(value="#{method.id}" selected=method.selected) #{method.name} - #{method.kind}
+    //- if paymentMethods.length >0
+    //-   .option
+    //-     label New
+    //-       input(type="radio" name="new-or-existing" value="new" checked=!currentData.replaceExisting)
+    //-   .option#existing(class=currentData.replaceExisting? "" : "disabled")
+    //-     label Replace Existing : 
+    //-       input(type="radio" name="new-or-existing" value="existing" checked=currentData.replaceExisting)
+    //-     select#payment-methods
+    //-       each method in paymentMethods
+    //-         option(value="#{method.id}" selected=method.selected) #{method.name} - #{method.kind}
     .back-btn#back-btn
       img.shadow-icon(data-src="close-x")  
   .payment-methods
