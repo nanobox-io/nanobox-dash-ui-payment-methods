@@ -1,6 +1,6 @@
 .pay-method-manage   {position: relative;
-  .back-wrapper      {display: flex; }
-  .vals              {position: relative; display: flex; flex-direction: column;
+  .back-wrapper      {display: flex;}
+  .vals              {position: relative; display: flex; flex-direction: column; padding: 40px 40px 80px;
     .readonly        {border:none; font-size:17px; font-family:$code; font-style:normal; font-weight: normal; color: #006ead; font-weight:bold;
       span           {line-height: 32px; font-size:23px; font-weight: normal; }
     }
@@ -9,10 +9,10 @@
     }
     .button          {background:#1D8ACD;}
     .optional-info   {position: relative; padding-bottom:5em;
-      .label         {margin-top:-42px;
+      .label         {margin-top:-42px; min-width: 150px;
         &:after      {content:""}
       }
-      &:after        {position: absolute; font-size: 16px; color:#006ead; font-style:italic; width:430px; right:-3px; top:6em;
+      &:after        {position: absolute; font-size: 16px; color:#006ead; font-style:italic; width:398px; right:-3px; top:6em;
                       content:"If you have additional information legally required on your invoices such as company name, address, VAT id, etc., add it here, and it will appear on your emailed and printed invoices."}
       textarea       {flex-grow: 2; height:5em}
     }

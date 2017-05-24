@@ -1,4 +1,6 @@
-.pay-pal{ width:100%; display:flex; flex-direction: column; align-items: center; justify-content: center; height:300px; 
-  .paypal-icon{width:83px; height:83px; background: white; border-radius: 50%; display: flex; align-items: center; flex-direction:column; justify-content: space-around;}
-  button{margin:40px auto; font-size:16px; color:#00ADFE;  padding:0 30px }
+.pay-pal{ width:100%; display:flex; flex-direction: column; align-items: center; justify-content: center; height:300px;
+  .paypal-icon{width:83px; height:83px; background: white; border-radius: 50%; display: flex; align-items: center; flex-direction:column; justify-content: space-around; border:solid 2px #179BD7;
+    svg{transform:scale(1.6)}
+  }
+  button{margin:40px auto; font-size:16px; background:#00ADFE; color:white;  padding:0 30px }
 }

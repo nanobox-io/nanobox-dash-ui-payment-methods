@@ -1,40 +1,41 @@
 .blue-item.lexi.pay-method-create
-  .new-or-existing
-    //- if paymentMethods.length >0
-    //-   .option
-    //-     label New
-    //-       input(type="radio" name="new-or-existing" value="new" checked=!currentData.replaceExisting)
-    //-   .option#existing(class=currentData.replaceExisting? "" : "disabled")
-    //-     label Replace Existing : 
-    //-       input(type="radio" name="new-or-existing" value="existing" checked=currentData.replaceExisting)
-    //-     select#payment-methods
-    //-       each method in paymentMethods
-    //-         option(value="#{method.id}" selected=method.selected) #{method.name} - #{method.kind}
-    .back-btn#back-btn
-      img.shadow-icon(data-src="close-x")  
+  //- .new-or-existing
+  //-   if paymentMethods.length >0
+  //-     .option
+  //-       label New
+  //-         input(type="radio" name="new-or-existing" value="new" checked=!currentData.replaceExisting)
+  //-     .option#existing(class=currentData.replaceExisting? "" : "disabled")
+  //-       label Replace Existing : 
+  //-         input(type="radio" name="new-or-existing" value="existing" checked=currentData.replaceExisting)
+  //-       select#payment-methods
+  //-         each method in paymentMethods
+  //-           option(value="#{method.id}" selected=method.selected) #{method.name} - #{method.kind}
+  .back-btn#back-btn
+    img.shadow-icon(data-src="close-x")  
   .payment-methods
     label.method(data-kind="card")
-      .icon
-        img.shadow-icon(data-src="pay-card")
-      | Credit Card
-      input(type="radio" name="pay-methods" value="card")
+      img.shadow-icon(data-src="pay-card")
+      .line
+        input(type="radio" name="pay-methods" value="card")
+        | Credit Card
   
     label.method(data-kind="paypal")
-      .icon
-        img.shadow-icon(data-src="pay-paypal")
-      | Paypal
-      input(type="radio" name="pay-methods" value="paypal")
+      img.shadow-icon(data-src="pay-paypal")
+      .line  
+        input(type="radio" name="pay-methods" value="paypal")
+        | Paypal
   
-    label.method(data-kind="direct")
-      .icon
-        img.shadow-icon(data-src="pay-direct")
-      | Direct
-      input(type="radio" name="pay-methods" value="direct")
+    label.direct-trigger.method(data-kind="direct")
+      img.shadow-icon(data-src="pay-direct")
+      .line
+        input(type="radio" name="pay-methods" value="direct")
+        | Direct
   
-  .name
-    label
-      | Name : 
-      input#name(placeholder="(For your benefit)" value="#{currentData.name}")
+  //- .name
+  //-   label
+  //-     | Name : 
+  //-     input#name(placeholder="(For your benefit)" value="#{currentData.name}")
+  
   .payment-holder
 
   .save-section

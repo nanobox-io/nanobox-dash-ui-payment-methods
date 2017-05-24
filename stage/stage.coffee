@@ -30,7 +30,12 @@ window.testPaymentMethodsLocally = () ->
     window.payMethods = new nanobox.PaymentMethods $(".stage-holder"), config, false
     payMethods.createMicroChooser 'zumiez', (newPayMethod)-> console.log newPayMethod
 
+  # Only create a payment method adder
+  createPaymentAdder = ()=>
+    window.payMethods = new nanobox.PaymentMethods $(".stage-holder"), config, false
+    payMethods.createPayMethod {}, $("body"), true
   # For testing various component functionality
 
-  createStandardComponent()
+  # createStandardComponent()
+  createPaymentAdder()
   # createMicroChooser()

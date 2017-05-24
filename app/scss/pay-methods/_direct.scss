@@ -4,7 +4,7 @@
     polygon{fill:white}
   }
   .txt{}
-  a{color:white; font-size:18px; @include selectable;
+  a{color:#00ADFE; font-size:18px; @include selectable;
     &:hover {text-decoration: underline;}
   }
 }

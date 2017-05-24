@@ -20,7 +20,7 @@ module.exports = class CreditCard extends PaymentMethod
       options =
         client: clientInstance
         styles:
-          input : {"font-size":"18px", color:"white", "font-family":'monospace'}, '::-webkit-input-placeholder' : {'color': '#0092e6'}, ':-moz-placeholder' : {'color': '#0092e6'}, '::-moz-placeholder' : {'color': '#0092e6'}, ':-ms-input-placeholder' : {'color': '#0092e6'}
+          input : {"font-size":"20px", color:"#384D59", "font-family":'monospace'}, height:"50px",  '::-webkit-input-placeholder' : {'color': '#b3b3b3'}, ':-moz-placeholder' : {'color': '#b3b3b3'}, '::-moz-placeholder' : {'color': '#b3b3b3'}, ':-ms-input-placeholder' : {'color': '#b3b3b3'}
         fields:
           number         : {selector: '#card-number'}
           cvv            : {selector: '#cvv',}

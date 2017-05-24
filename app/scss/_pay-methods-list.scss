@@ -9,7 +9,7 @@
       }
       &.paypal    {
         .circle   {background:white; width:60px; height:60px; border-radius: 50%; margin:-1px 0 0 6px;
-          svg     {margin-top:8px; }
+          svg     {margin-top:14px; transform:scale(1.2);  }
         }
       }
       &.direct    {

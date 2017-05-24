@@ -16,11 +16,11 @@ class PaymentMethods
       @$errors = $ ".errors", $node
       @list = new PayMethodsList @$holder, @config.paymentMethod, @createPayMethod, @managePayMethod
 
-  createPayMethod : (data) =>
+  createPayMethod : (data, $holder=@$holder, isStandAlone=false) =>
     @clearErrors()
-    @list.hide()
+    @list?.hide()
     @manager?.destroy()
-    @creator = new PayMethodCreate @$holder, @config.paymentMethod, @showList, @config.clientToken, data, @config.createPaymentMethod, @config.updatePaymentMethod, @checkForErrors, @clearErrors
+    @creator = new PayMethodCreate $holder, @config.paymentMethod, @showList, @config.clientToken, data, @config.createPaymentMethod, @config.updatePaymentMethod, @checkForErrors, @clearErrors, isStandAlone
 
   createMicroChooser : (currentPayMethodId, changeCb) ->
     return if @config.paymentMethod.length == 0
@@ -69,7 +69,7 @@ class PaymentMethods
     @$errors.text(error).removeClass 'hidden'
 
   clearErrors : () =>
-    @$errors.addClass 'hidden'
+    @$errors?.addClass 'hidden'
 
   refreshPage : () -> setTimeout "location.reload(true);", 1000
 

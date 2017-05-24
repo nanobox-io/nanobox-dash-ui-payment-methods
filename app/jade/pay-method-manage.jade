@@ -11,9 +11,9 @@
     else
       .image
         img(src="#{image}", alt="")
-          
-    .val
-      .label Name
+
+    //- .val
+    //-   .label Name
       input#name(value="#{name}")
     //- If ever needed, this allows them to change the monthiversary
     //- .val
@@ -32,6 +32,16 @@
     .cancel#cancel Cancel
     .button.lifecycle#save-extras Save
   
+  .manage
+    h2 Admin
+    .inline
+      .delete#delete 
+        img.shadow-icon(data-src="close-x")
+        .txt Delete 
+      .button#update-with-new
+        .txt Update or Replace
+        img.shadow-icon(data-src="replace-payment")  
+
   if invoices.length > 0
     .invoices
       h2 Invoices
@@ -51,12 +61,3 @@
   //-         .name= app.name
   //-         a.manage(href="#{app.href}") Manage
   
-  .manage
-    h2 Admin
-    .inline
-      .delete#delete 
-        img.shadow-icon(data-src="close-x")
-        .txt Delete 
-      .button#update-with-new
-        .txt Update or Replace
-        img.shadow-icon(data-src="replace-payment")
