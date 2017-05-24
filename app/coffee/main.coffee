@@ -66,10 +66,12 @@ class PaymentMethods
       requestAnimationFrame @scrollToTop
 
   addError : (error) =>
-    @$errors.text(error).removeClass 'hidden'
+    if @$errors?
+      @$errors.text(error).removeClass 'hidden'
 
   clearErrors : () =>
-    @$errors?.addClass 'hidden'
+    if @$errors?
+      @$errors.addClass 'hidden'
 
   refreshPage : () -> setTimeout "location.reload(true);", 1000
 
