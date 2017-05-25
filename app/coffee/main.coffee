@@ -7,6 +7,7 @@ MicroChooser    = require 'micro-chooser'
 class PaymentMethods
 
   constructor: (@$el, @config, doBuild=true) ->
+    @config.paymentMethod = [@config.paymentMethod]
     nanobox.monthsAr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
     if doBuild

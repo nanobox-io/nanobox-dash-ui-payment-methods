@@ -36,6 +36,6 @@ window.testPaymentMethodsLocally = () ->
     payMethods.createPayMethod {}, $("body"), true
   # For testing various component functionality
 
-  # createStandardComponent()
-  createPaymentAdder()
+  createStandardComponent()
+  # createPaymentAdder()
   # createMicroChooser()

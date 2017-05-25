@@ -3,11 +3,9 @@ module.exports = class PaymentMethodsShim
   constructor: () ->
 
   getPaymentMethods : () ->
-    [
-      @getPaymentMethod('work'),
-      @getPaymentMethod('zumiez'),
-      @getPaymentMethod('personal')
-    ]
+    @getPaymentMethod('work')
+    # @getPaymentMethod('zumiez'),
+    # @getPaymentMethod('personal')
 
   getInvoice : (paymentMethodId) ->
     paymentMethod  = @getPaymentMethod paymentMethodId
@@ -53,7 +51,6 @@ module.exports = class PaymentMethodsShim
   getPaymentMethod : (id="work") ->
     if id == "work"
       id    : "work" # Also == the token braintree needs on update
-      name  : "Work"
       kind  : "card"
       billingDay : 23
       userInvoiceInfo : "Some long Company name\nVat ID : 33213451"
@@ -75,7 +72,6 @@ module.exports = class PaymentMethodsShim
       ]
     else if id=="zumiez"
       id    : "zumiez" # Also == the token braintree needs on update
-      name  : "Zumiez"
       kind  : "direct"
       billingDay : 2
       userInvoiceInfo : ""
@@ -88,7 +84,6 @@ module.exports = class PaymentMethodsShim
       invoices : []
     else
       id    : "personal" # Also == the token braintree needs on update
-      name  : "Personal"
       kind  : "paypal"
       billingDay : 12
       userInvoiceInfo : "I love Paypal"
