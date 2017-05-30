@@ -5,14 +5,14 @@ Direct           = require 'pay-method/direct'
 
 module.exports = class PayMethodCreate
 
-  constructor: ($el, @paymentMethods, @destroyCb, @brainTreeAuthoToken, @currentItemData, @createPayMethod, @updatePayMethod, @checkForErrors, @clearErrors, isStandAlone) ->
+  constructor: ($el, @paymentMethods, @destroyCb, @brainTreeAuthoToken, @currentItemData, @createPayMethod, @updatePayMethod, @checkForErrors, @clearErrors, @isStandAlone) ->
     curItemData = @prepareCurrentData @currentItemData, @paymentMethods
     @$node = $ payMethodCreate( {apps:[], paymentMethods:@paymentMethods, currentData:curItemData} )
     @$paymentHolder = $ ".payment-holder", @$node
     $el.append @$node
     castShadows @$node
     lexify @$node
-    if isStandAlone then @$node.addClass 'stand-alone'
+    if @isStandAlone then @$node.addClass 'stand-alone'
 
     # Payment method chooser (credit, paypal, etc)
     $("input[name='pay-methods']", @$node).on 'click', (e)=>
@@ -68,10 +68,10 @@ module.exports = class PayMethodCreate
         name : $("input#name", @$node).val()
         kind : $("input[name='pay-methods']:checked", @$node).val()
 
-      # newData[key] = val for key, val of extraData
-      # New payment method from scratch
-      if $("input[name='new-or-existing']:checked", @$node).val() == "new" || @paymentMethods.length == 0
+      # If this is a stand alone, then we KNOW it is creating a new component
+      if @isStandAlone
         @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, true)
+      # else, this is the main component, and can only update
       else
         @updatePayMethod @getReplaceeData(newData), nonce, (results)=> @checkForErrors(results, null, true)
 
