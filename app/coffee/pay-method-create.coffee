@@ -73,7 +73,9 @@ module.exports = class PayMethodCreate
         @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, true)
       # else, this is the main component, and can only update
       else
-        @updatePayMethod @getReplaceeData(newData), nonce, (results)=> @checkForErrors(results, null, true)
+
+        @updatePayMethod @getReplaceeData(newData), nonce, (results)=>
+          @checkForErrors(results, null, true)
 
 
   # ------------------------------------ Helpers
@@ -94,9 +96,7 @@ module.exports = class PayMethodCreate
 
   # Get the data for the payment method we are replacing
   getReplaceeData : (newData) ->
-    id = $('select#payment-methods').val()
-    for paymentMethod in @paymentMethods
-      if paymentMethod.id == id
-        paymentMethod.name = newData.name
-        paymentMethod.kind = newData.kind
-        return paymentMethod
+    paymentMethod = @paymentMethods[0]
+    paymentMethod.name = newData.name
+    paymentMethod.kind = newData.kind
+    return paymentMethod

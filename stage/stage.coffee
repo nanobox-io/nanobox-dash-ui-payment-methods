@@ -10,7 +10,7 @@ window.testPaymentMethodsLocally = () ->
     pmUpdateId              : "12345asdfg" # !NEW - If it doesn't exist, then
     # Create new payment method
     createPaymentMethod     : (data, nonce, cb)-> console.log 'create payment method'; console.log data; console.log nonce; cb({})
-    # Update existing payment method
+    # Update existing payment method 
     updatePaymentMethod     : (data, nonce, cb)-> console.log 'update payment method'; console.log data; console.log nonce; cb({})
     # Rename payment method, name, special info, etc
     # updatePaymentMethodInfo : (data, meta, cb)-> console.log 'rename payment method'; console.log data; console.log meta.name, meta.userCustomData; cb({})
@@ -37,6 +37,6 @@ window.testPaymentMethodsLocally = () ->
     payMethods.createPayMethod {}, $("body"), true
   # For testing various component functionality
 
-  # createStandardComponent()
-  createPaymentAdder()
+  createStandardComponent()
+  # createPaymentAdder()
   # createMicroChooser()
