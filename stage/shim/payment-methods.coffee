@@ -22,15 +22,15 @@ module.exports = class PaymentMethodsShim
       meta:{lastFourDigits: 1234}
     paymentMethod :
       userInvoiceInfo: paymentMethod.userInvoiceInfo
-    appBillingEvents: [
-      @getAppBillingEvent(),
-      @getAppBillingEvent(),
-      @getAppBillingEvent(),
-      @getAppBillingEvent()
+    lineItems : [
+      @getAppBillingEventNEW(),
+      @getAppBillingEventNEW(),
+      @getAppBillingEventNEW(),
+      @getAppBillingEventNEW()
     ]
-    otherBillingEvents: [
-      @getOtherBillingEvent()
-    ]
+    # otherBillingEvents: [
+    #   @getOtherBillingEvent()
+    # ]
 
 
   getAppBillingEvent : () ->
@@ -40,8 +40,19 @@ module.exports = class PaymentMethodsShim
     plan:
       name  : "startup"
     amount       : "100.00"
-    startAt      : 1452551513000 #"02 Dec" # TODO : Convert all date strings into timestamps
+    startAt      : 1452551513000
     endAt        : 1455229913000
+
+  getAppBillingEventNEW : () ->
+    action  : "charge"
+    name    : "Pet Project Plan (06/03/2017 - 07/02/2017)"
+    amount  : "100.00"
+    context :
+      name: "distinct-delsie"
+      type: "app"
+
+    # plan:
+      # name  : "startup"
 
   getOtherBillingEvent : () ->
     action       : "credit"
@@ -74,7 +85,7 @@ module.exports = class PaymentMethodsShim
       id    : "zumiez" # Also == the token braintree needs on update
       kind  : "direct"
       billingDay : 2
-      userInvoiceInfo : ""
+      userInvoiceInfo : "Some Vat info"
       meta  :
         accountId       : "john@doe.io"
       apps:[

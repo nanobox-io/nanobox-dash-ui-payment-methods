@@ -13,39 +13,40 @@
       &:last-of-type    {border-bottom:none; }
     }
   }
-  .total-cost {display: flex; justify-content: flex-end;
-    .txt      {border-top:solid 1px #A9D8EE; font-size:19px; padding-top:8px; margin-top:20px;
-      &:before{content:"Total : $"}
+  .total-cost           {display: flex; justify-content: flex-end;
+    .txt                {border-top:solid 1px #A9D8EE; font-size:19px; padding-top:8px; margin-top:20px;
+      &:before          {content:"Total : $"}
     }
   }
   $stamp-border: solid 3px #00adfe;
-  .stamp{border:$stamp-border; display: inline-block; position: absolute; right:40px; top:40px; transform: rotateZ(-6deg);
-    .status{display: flex; align-items: center; font-size: 64px; text-transform: uppercase; font-weight: bold; font-style: normal; justify-content: space-around; border-bottom:$stamp-border;
-      .stamp-icon{padding:10px; display: flex; padding:0 20px;  }
-      .txt{border-left:$stamp-border; padding:0 20px 0 20px; text-align: center;}
+  .stamp                {border:$stamp-border; display: inline-block; position: absolute; right:40px; top:40px; transform: rotateZ(-6deg);
+    .status             {display: flex; align-items: center; font-size: 64px; text-transform: uppercase; font-weight: bold; font-style: normal; justify-content: space-around; border-bottom:$stamp-border;
+      .stamp-icon       {padding:10px; display: flex; padding:0 20px;  }
+      .txt              {border-left:$stamp-border; padding:0 20px 0 20px; text-align: center;}
     }
-    .blurb{padding:5px 12px; text-align: center;}
+    .blurb              {padding:5px 12px; text-align: center;}
     $paid-color:#00bf1d;
     $pending-color:#00adfe;
     $errored-color:#f3314d;
-    &.paid{border-color:$paid-color; color:$paid-color;
-      .status, .txt{border-color:$paid-color;}
+    &.paid              {border-color:$paid-color; color:$paid-color;
+      .status, .txt     {border-color:$paid-color;}
     }
-    &.pending{border-color:$pending-color; color:$pending-color;
-      .status, .txt{border-color:$pending-color;}
+    &.pending           {border-color:$pending-color; color:$pending-color;
+      .status, .txt     {border-color:$pending-color;}
     }
-    &.errored{border-color:$errored-color; color:$errored-color;
-      .status, .txt{border-color:$errored-color;}
+    &.errored           {border-color:$errored-color; color:$errored-color;
+      .status, .txt     {border-color:$errored-color;}
     }
   }
+  .nano-info            {border-bottom:solid 1px #DDDDDD; display: inline-block; padding-bottom: 5px; margin-bottom: 5px; }
 }
 
-@media print {
-  *        {visibility: hidden; }
-  .invoice  {position: fixed; top:0; width:100%; left:0}
-  .invoice, .invoice * {visibility: visible !important; }
+@media print            {
+  *                     {visibility: hidden; }
+  .invoice              {position: fixed; top:0; width:100%; left:0}
+  .invoice, .invoice *  {visibility: visible !important; }
 }
 
-.invoice-actions{display:flex; justify-content: flex-end; margin-top:10px;
-  .button       {margin-left:10px; }
+.invoice-actions        {display:flex; justify-content: flex-end; margin-top:10px;
+  .button               {margin-left:10px; }
 }

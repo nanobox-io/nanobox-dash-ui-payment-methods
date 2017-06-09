@@ -1,18 +1,22 @@
 payMethodsList = require 'jade/pay-methods-list'
+Invoice        = require 'invoice'
 
 module.exports = class PaymentMethodsList
 
-  constructor: ($el, paymentMethods, onAddPayMethCb, managePayMethCb) ->
+  constructor: ($el, @config, onAddPayMethCb, managePayMethCb, @checkForErrors) ->
+    @formatInvoicesWithDate @config.paymentMethod[0].invoices
     list = payMethodsList
-    @setNames paymentMethods
-    @$list = $ payMethodsList( {paymentMethods: paymentMethods} )
+    @setNames()
+    @$list = $ payMethodsList( {paymentMethods: @config.paymentMethod} )
     $el.append @$list
     castShadows @$list
     $("#add-payment-method", @$list).on 'click', ()-> onAddPayMethCb()
     $(".manage.button", @$list).on 'click', (e)-> managePayMethCb e.currentTarget.dataset.id
+    $("#invoices", @$node).on 'change', (e)=> @showInvoice e.currentTarget.value
+    lexify @$node
 
-  setNames : (paymentMethods) ->
-    for paymentMethod in paymentMethods
+  setNames : () ->
+    for paymentMethod in @config.paymentMethod
       if paymentMethod.kind == "card"
         paymentMethod.name = "Credit Card"
       else if paymentMethod.kind == "paypal"
@@ -22,3 +26,19 @@ module.exports = class PaymentMethodsList
 
   hide : () -> @$list.addClass 'hidden'
   show : () -> @$list.removeClass 'hidden'
+
+  # ------------------------------------ Helpers
+
+  formatInvoicesWithDate : (invoices) ->
+    for invoice in invoices
+      startAt = new Date invoice.startAt
+      endAt   = new Date invoice.endAt
+      invoice.title = "#{startAt.getDate()} #{nanobox.monthsAr[startAt.getUTCMonth()]} - #{endAt.getDate()} #{nanobox.monthsAr[endAt.getUTCMonth()]} : #{endAt.getFullYear()}"
+
+
+  showInvoice : (id) ->
+    return if @currentInvoiceId == id || id == ""
+    @currentInvoiceId = id
+    @config.getInvoice @currentInvoiceId, (result)=>
+      if @invoice? then @invoice.destroy()
+      @invoice = new Invoice $('.invoice-holder', @$node), result, @checkForErrors, @config.payInvoiceNow

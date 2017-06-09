@@ -42,16 +42,6 @@
         .txt Update or Replace
         img.shadow-icon(data-src="replace-payment")  
 
-  if invoices.length > 0
-    .invoices
-      h2 Invoices
-      select#invoices
-        option(value="") Select An Invoice
-        each invoice in invoices
-          option(value="#{invoice.id}")= invoice.title
-
-      .invoice-holder
-
   //- This is where we used to list out the apps associated with this payment method          
   //- if apps.length != 0
   //-   .sub-items

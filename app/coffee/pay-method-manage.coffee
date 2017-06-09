@@ -1,11 +1,9 @@
 payMethodManage = require 'jade/pay-method-manage'
 CreditCard      = require 'pay-method/credit-card'
-Invoice         = require 'invoice'
 
 module.exports = class PayMethodManage
 
-  constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, @retrieveInvoice, onReplaceWithNew, @onUpdatePaymentMethod, @onDelete, @payInvoiceNow) ->
-    @formatInvoicesWithDate @data.invoices
+  constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, onReplaceWithNew, @onUpdatePaymentMethod, @onDelete) ->
     @addIcon()
     @$node = $ payMethodManage( @data )
     @$el.append @$node
@@ -20,7 +18,6 @@ module.exports = class PayMethodManage
     $("#back-btn"            , @$node).on 'click' , (e)=> onCancel()
     $("#update-extras"       , @$node).on 'click' , (e)=> @addExtras()
     $("#save-extras"         , @$node).on 'click' , (e)=> @onUpdateInfo()
-    $("#invoices"            , @$node).on 'change', (e)=> @showInvoice e.currentTarget.value
     # If ever needed, uncomment to allow them to change the monthiversary
     # $("select#billing-day"   , @$node).on 'change', (e)=> @onFieldsEdit(Number(e.currentTarget.value), 'billingDay')
 
@@ -84,26 +81,6 @@ module.exports = class PayMethodManage
           else
             @data.icon = false
             @data.image = @data.meta.imageURL
-
-  formatInvoicesWithDate : (invoices) ->
-    for invoice in invoices
-      startAt = new Date invoice.startAt
-      endAt   = new Date invoice.endAt
-      invoice.title = "#{startAt.getDate()} #{nanobox.monthsAr[startAt.getUTCMonth()]} - #{endAt.getDate()} #{nanobox.monthsAr[endAt.getUTCMonth()]} : #{endAt.getFullYear()}"
-
-
-  showInvoice : (id) ->
-    return if @currentInvoiceId == id || id == ""
-    @currentInvoiceId = id
-    @retrieveInvoice @currentInvoiceId, (result)=>
-      if @invoice? then @invoice.destroy()
-      @invoice = new Invoice $('.invoice-holder', @$node), result, @checkForErrors, @payInvoiceNow
-
-  scrollToInvoice : ()->
-    setTimeout ()=>
-      $('.invoice-holder', @$node)[0].scrollIntoView()
-    ,
-      1200
 
   destroy : ()->
     @$node.remove()

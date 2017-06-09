@@ -3,10 +3,8 @@ invoice = require 'jade/invoice'
 module.exports = class Invoice
 
   constructor: (@$el, @invoiceData, @checkForErrors, @payNow) ->
-    if !@invoiceData.otherBillingEvents? then @invoiceData.otherBillingEvents = []
     @formatInvoiceDate()
-    @formatBillingEventDates @invoiceData.appBillingEvents
-    @formatBillingEventDates @invoiceData.otherBillingEvents
+    @formatBillingEventDates @invoiceData.lineItems
     @addStampMetaData()
     @$node = $ invoice( @invoiceData )
     @$el.append @$node

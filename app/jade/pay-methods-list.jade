@@ -30,3 +30,14 @@
     .add-new#add-payment-method
       img.shadow-icon(data-src="big-add")
       .txt Add a Payment Method
+  
+  .lexi
+    if paymentMethods[0].invoices.length > 0
+      .invoices
+        h2 Invoices
+        select#invoices
+          option(value="") Select An Invoice
+          each invoice in paymentMethods[0].invoices
+            option(value="#{invoice.id}")= invoice.title
+
+        .invoice-holder

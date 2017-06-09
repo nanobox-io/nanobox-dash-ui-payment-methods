@@ -13,29 +13,29 @@
         .txt= stampMeta.text
       .blurb= stampMeta.blurb
     .charge-date= _invoiceDate
+    
+    .nano-info Nanobox Inc.
     .invoic-num Invoice ##{number}
     .custom-data= paymentMethod.userInvoiceInfo
     table.line-items.apps
       tr.header
-        td App Name
-        td plan
-        td date range
+        td Item
+        td Context
         td 
-      each event in appBillingEvents
+      each event in lineItems
         tr
-          td= event.app.name
-          td= event.plan.name
-          td= event.dateRange
+          td= event.name
+          td= event.context.name
           td= event.amount
     
-    table.line-items.other
-      tr.header
-        td Additional Items
-        td 
-      each event in otherBillingEvents
-        tr
-          td= event.description
-          td= event.amount
+    //- table.line-items.other
+    //-   tr.header
+    //-     td Additional Items
+    //-     td 
+    //-   each event in otherBillingEvents
+    //-     tr
+    //-       td= event.description
+    //-       td= event.amount
           
     .total-cost
       .txt= total

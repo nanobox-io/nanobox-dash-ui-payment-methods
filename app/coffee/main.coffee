@@ -15,7 +15,7 @@ class PaymentMethods
       @$el.append $node
       @$holder = $ ".pay-wrapper", $node
       @$errors = $ ".errors", $node
-      @list = new PayMethodsList @$holder, @config.paymentMethod, @createPayMethod, @managePayMethod
+      @list = new PayMethodsList @$holder, @config, @createPayMethod, @managePayMethod, @checkForErrors,
 
   createPayMethod : (data, $holder=@$holder, isStandAlone=false) =>
     @clearErrors()
@@ -43,7 +43,7 @@ class PaymentMethods
   managePayMethod : (id)=>
     @list.hide()
     @clearErrors()
-    @manager = new PayMethodManage @$holder, @getPaymentMethodDataById(id), @config.clientToken, @checkForErrors, @showList, @config.getInvoice, @createPayMethod, @config.updatePaymentMethod, @config.deletePaymentMethod, @config.payInvoiceNow
+    @manager = new PayMethodManage @$holder, @getPaymentMethodDataById(id), @config.clientToken, @checkForErrors, @showList, @createPayMethod, @config.updatePaymentMethod, @config.deletePaymentMethod
 
   getPaymentMethodDataById : (id) ->
     for methData in @config.paymentMethod
