@@ -7,7 +7,7 @@ module.exports = class PaymentMethodsList
     @formatInvoicesWithDate @config.paymentMethod[0].invoices
     list = payMethodsList
     @setNames()
-    @$list = $ payMethodsList( {paymentMethods: @config.paymentMethod, thereAreActivePMs:@areActivePMs()} )
+    @$list = $ payMethodsList( {paymentMethods: @config.paymentMethod, thereAreActivePMs:@areActivePMs() } )
     $el.append @$list
     castShadows @$list
     $("#add-payment-method", @$list).on 'click', ()-> onAddPayMethCb()

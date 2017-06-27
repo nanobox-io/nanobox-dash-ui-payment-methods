@@ -67,8 +67,9 @@ module.exports = class PaymentMethodsShim
     if id == "work"
       id    : "work" # Also == the token braintree needs on update
       kind  : "card"
-      billingDay : 23
-      state : "inactive" # Anything besides active and don't show the payment method.
+      # billingDay : 23
+      billingDate : 1514936691001
+      state : "active" # Anything besides active and don't show the payment method.
       userInvoiceInfo : "Some long Company name\nVat ID : 33213451"
       meta  :
         NameOnCard     : "John Doe"
@@ -90,7 +91,8 @@ module.exports = class PaymentMethodsShim
       id    : "zumiez" # Also == the token braintree needs on update
       kind  : "direct"
       state : "inactive"
-      billingDay : 2
+      # billingDay : 2
+      billingDate : 1514936691001
       userInvoiceInfo : "Some Vat info"
       meta  :
         accountId       : "john@doe.io"
@@ -103,7 +105,8 @@ module.exports = class PaymentMethodsShim
       id    : "personal" # Also == the token braintree needs on update
       kind  : "paypal"
       state : "inactive"
-      billingDay : 12
+      # billingDay : 12
+      billingDate : 1514936691001
       userInvoiceInfo : "I love Paypal"
       meta  :
         accountId       : "john@doe.io"

@@ -23,10 +23,11 @@
               else if item.kind == "paypal"
                 .label Paypal
                 .val=item.meta.accountId
-              //- .label TotalApps
-              //- .val=item.apps.length
+                
+              .label Next Billing Date
+              .val= new Date(item.billingDate).toLocaleDateString() 
               
-        .manage.button(data-id="#{item.id}") Manage
+          .manage.button(data-id="#{item.id}") Manage
 
   else
     .add-new#add-payment-method

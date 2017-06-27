@@ -213,3 +213,6 @@ gulp.task 'copyStatics', ['bowerLibs'],                ()    -> copyAssets('rel/
 gulp.task 'releaseCompile', ['copyStatics'],           (cb)  -> compileFiles(false, cb)
 gulp.task 'minify',['releaseCompile'],                 ()    -> minifyAndJoin();
 gulp.task 'rel', ['rel:clean', 'bumpVersion', 'minify'],     -> rimraf './rel/index.html', ->
+
+
+gulp.task 'temp-task', ()-> console.log "temp task complete!"
