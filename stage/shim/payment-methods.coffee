@@ -4,7 +4,7 @@ module.exports = class PaymentMethodsShim
 
   getPaymentMethods : () ->
     @getPaymentMethod('work')
-    # @getPaymentMethod('zumiez'),
+    # @getPaymentMethod('zumiez')
     # @getPaymentMethod('personal')
 
   getInvoice : (paymentMethodId) ->
@@ -13,7 +13,7 @@ module.exports = class PaymentMethodsShim
     state         : "pending"
     id            : "23123"
     number        : "23123" # Use this for invoice number (instead of id)
-    total         : "945.00"
+    total         : "100.00"
     billingDate   : 1455229913000 # "12 Oct 2017"
     paidDate      : 1455229913000 # "12 Oct 2017"
     error         : "Unable to Process Card"
@@ -23,10 +23,8 @@ module.exports = class PaymentMethodsShim
     paymentMethod :
       userInvoiceInfo: paymentMethod.userInvoiceInfo
     lineItems : [
-      @getAppBillingEventNEW(),
-      @getAppBillingEventNEW(),
-      @getAppBillingEventNEW(),
-      @getAppBillingEventNEW()
+      @getAppBillingEventNEW(0),
+      @getAppBillingEventNEW(1)
     ]
     # otherBillingEvents: [
     #   @getOtherBillingEvent()
@@ -43,12 +41,18 @@ module.exports = class PaymentMethodsShim
     startAt      : 1452551513000
     endAt        : 1455229913000
 
-  getAppBillingEventNEW : () ->
+  getAppBillingEventNEW : (index=0) ->
+    ar = [
+      {name:"Team Plan - 10 members @ $15/member", total:"$150", context:"nanobox team" }
+      {name:"Beta user discount", total:"-$50", context:"" }
+      {name:"Team Plan with 10 members @ $15/member", total:"$150", context:"nanobox team" }
+      {name:"Team Plan with 10 members @ $15/member", total:"$150", context:"nanobox team" }
+    ]
     action  : "charge"
-    name    : "Pet Project Plan (06/03/2017 - 07/02/2017)"
-    amount  : "100.00"
+    name    : ar[index].name
+    amount  : ar[index].total
     context :
-      name: "distinct-delsie"
+      name: ar[index].context
       type: "app"
 
     # plan:
@@ -64,6 +68,7 @@ module.exports = class PaymentMethodsShim
       id    : "work" # Also == the token braintree needs on update
       kind  : "card"
       billingDay : 23
+      state : "inactive" # Anything besides active and don't show the payment method.
       userInvoiceInfo : "Some long Company name\nVat ID : 33213451"
       meta  :
         NameOnCard     : "John Doe"
@@ -84,6 +89,7 @@ module.exports = class PaymentMethodsShim
     else if id=="zumiez"
       id    : "zumiez" # Also == the token braintree needs on update
       kind  : "direct"
+      state : "inactive"
       billingDay : 2
       userInvoiceInfo : "Some Vat info"
       meta  :
@@ -96,6 +102,7 @@ module.exports = class PaymentMethodsShim
     else
       id    : "personal" # Also == the token braintree needs on update
       kind  : "paypal"
+      state : "inactive"
       billingDay : 12
       userInvoiceInfo : "I love Paypal"
       meta  :

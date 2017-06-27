@@ -7,7 +7,7 @@ module.exports = class PaymentMethodsList
     @formatInvoicesWithDate @config.paymentMethod[0].invoices
     list = payMethodsList
     @setNames()
-    @$list = $ payMethodsList( {paymentMethods: @config.paymentMethod} )
+    @$list = $ payMethodsList( {paymentMethods: @config.paymentMethod, thereAreActivePMs:@areActivePMs()} )
     $el.append @$list
     castShadows @$list
     $("#add-payment-method", @$list).on 'click', ()-> onAddPayMethCb()
@@ -42,3 +42,9 @@ module.exports = class PaymentMethodsList
     @config.getInvoice @currentInvoiceId, (result)=>
       if @invoice? then @invoice.destroy()
       @invoice = new Invoice $('.invoice-holder', @$node), result, @checkForErrors, @config.payInvoiceNow
+
+  areActivePMs : () ->
+    for pm in @config.paymentMethod
+      if pm.state == 'active'
+        return true
+    return false
