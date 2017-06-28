@@ -7,9 +7,11 @@ module.exports = class PaymentMethodsList
     @formatInvoicesWithDate @config.paymentMethod[0].invoices
     list = payMethodsList
     @setNames()
+    @addIcons()
     @$list = $ payMethodsList( {paymentMethods: @config.paymentMethod, thereAreActivePMs:@areActivePMs() } )
     $el.append @$list
     castShadows @$list
+
     $("#add-payment-method", @$list).on 'click', ()-> onAddPayMethCb()
     $(".manage.button", @$list).on 'click', (e)-> managePayMethCb e.currentTarget.dataset.id
     $("#invoices", @$node).on 'change', (e)=> @showInvoice e.currentTarget.value
@@ -48,3 +50,24 @@ module.exports = class PaymentMethodsList
       if pm.state == 'active'
         return true
     return false
+
+  addIcons : () ->
+    for pm in @config.paymentMethod
+      @addIcon pm
+
+  addIcon : (data) ->
+    return if data.icon?
+    switch data.kind
+      when 'direct' then data.icon = 'pay-direct'
+      when 'paypal' then data.icon = 'pay-paypal'
+      when 'card'
+
+        switch data.meta.cardType.toLowerCase()
+          when 'visa' then              data.icon = "visa"
+          when 'mastercard' then        data.icon = "mastercard"
+          when 'american express' then  data.icon = "american-express"
+          when 'discover' then          data.icon = "discover"
+          else                          data.icon = "default"
+            # if data.meta.imageURL?
+            #   data.icon = false
+            #   data.image = @data.meta.imageURL

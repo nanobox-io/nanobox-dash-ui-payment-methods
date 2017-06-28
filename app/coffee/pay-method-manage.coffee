@@ -4,7 +4,6 @@ CreditCard      = require 'pay-method/credit-card'
 module.exports = class PayMethodManage
 
   constructor: (@$el, @data, @brainTreeAuthoToken, @checkForErrors, onCancel, onReplaceWithNew, @onUpdatePaymentMethod, @onDelete) ->
-    @addIcon()
     @$node = $ payMethodManage( @data )
     @$el.append @$node
     castShadows @$node
@@ -69,18 +68,6 @@ module.exports = class PayMethodManage
       e.currentTarget.className = "#{e.currentTarget.className} confirm"
     else
       @onDelete @data, (results)=> @checkForErrors(results, null, true)
-
-
-  addIcon : () ->
-    switch @data.kind
-      when 'direct' then @data.icon = 'pay-direct'
-      when 'paypal' then @data.icon = 'pay-paypal'
-      when 'card'
-        switch @data.meta.cardType
-          when 'visa' then @data.icon = "visa"
-          else
-            @data.icon = false
-            @data.image = @data.meta.imageURL
 
   destroy : ()->
     @$node.remove()

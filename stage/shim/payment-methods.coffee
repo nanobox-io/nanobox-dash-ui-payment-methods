@@ -76,7 +76,6 @@ module.exports = class PaymentMethodsShim
         lastFourDigits : 1234
         cardType       : "visa"
         expirationDate : "04/18"
-        imageURL       : "http://thehandbagresource.com/images/payment-visa.png"
         cvv            : 123
       apps:[
         {name:"main", href:"/some/url"}

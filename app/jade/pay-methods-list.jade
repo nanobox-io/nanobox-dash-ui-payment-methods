@@ -6,7 +6,7 @@
           if item.kind == "card"
             .icon.card
               img.shadow-icon(data-src="cc-back")
-              img.shadow-icon(data-src="visa")
+              img.shadow-icon(data-src="#{item.icon}")
           else if item.kind == "paypal"
             .icon.paypal
               .circle
