@@ -43,11 +43,11 @@
         img.shadow-icon(data-src="replace-payment")  
 
   //- This is where we used to list out the apps associated with this payment method          
-  //- if apps.length != 0
-  //-   .sub-items
-  //-     h2 Apps billed via this payment method
-  //-     each app in apps
-  //-       .item
-  //-         .name= app.name
-  //-         a.manage(href="#{app.href}") Manage
+  if apps.length != 0
+    .sub-items
+      h2 Apps billed via this payment method
+      each app in apps
+        .item
+          .name= app.name
+          a.manage(href="#{app.href}") Manage
   
