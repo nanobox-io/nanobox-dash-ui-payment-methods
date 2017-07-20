@@ -71,9 +71,9 @@ module.exports = class PayMethodCreate
       # If this is a stand alone, then we KNOW it is creating a new component
       if @isStandAlone
         @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, true)
+
       # else, this is the main component, and can only update
       else
-
         @updatePayMethod @getReplaceeData(newData), nonce, (results)=>
           @checkForErrors(results, null, true)
 
