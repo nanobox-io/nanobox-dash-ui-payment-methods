@@ -4,10 +4,12 @@ Invoice        = require 'invoice'
 module.exports = class PaymentMethodsList
 
   constructor: ($el, @config, onAddPayMethCb, managePayMethCb, @checkForErrors) ->
-    @formatInvoicesWithDate @config.paymentMethod[0].invoices
-    list = payMethodsList
+    if @config.paymentMethod[0]?
+      @formatInvoicesWithDate @config.paymentMethod[0].invoices
+
     @setNames()
     @addIcons()
+
     @$list = $ payMethodsList( {paymentMethods: @config.paymentMethod, thereAreActivePMs:@areActivePMs() } )
     $el.append @$list
     castShadows @$list
@@ -47,8 +49,9 @@ module.exports = class PaymentMethodsList
 
   areActivePMs : () ->
     for pm in @config.paymentMethod
-      if pm.state == 'active'
-        return true
+      if pm?
+        if pm.state == 'active'
+          return true
     return false
 
   addIcons : () ->
