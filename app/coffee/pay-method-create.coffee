@@ -69,7 +69,7 @@ module.exports = class PayMethodCreate
         kind : $("input[name='pay-methods']:checked", @$node).val()
 
       # If this is a stand alone, then we KNOW it is creating a new component
-      if @isStandAlone
+      if @isStandAlone || @paymentMethods.length == 0
         @createPayMethod newData, nonce, (results)=> @checkForErrors(results, null, true)
 
       # else, this is the main component, and can only update
