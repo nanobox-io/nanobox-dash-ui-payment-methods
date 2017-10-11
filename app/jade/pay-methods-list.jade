@@ -24,7 +24,7 @@
                 .label Paypal
                 .val=item.meta.accountId
                 
-              .label Next Billing Date
+              .label(style="margin-left:10px; ") Next Billing Date
               .val= new Date(item.billingDate).toLocaleDateString() 
               
           .manage.button(data-id="#{item.id}") Manage

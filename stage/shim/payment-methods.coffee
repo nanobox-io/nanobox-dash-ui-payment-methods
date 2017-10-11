@@ -3,9 +3,9 @@ module.exports = class PaymentMethodsShim
   constructor: () ->
 
   getPaymentMethods : () ->
-    @getPaymentMethod('work')
+    # @getPaymentMethod('work')
     # @getPaymentMethod('zumiez')
-    # @getPaymentMethod('personal')
+    @getPaymentMethod('personal')
 
   getInvoice : (paymentMethodId) ->
     paymentMethod  = @getPaymentMethod paymentMethodId
@@ -103,11 +103,18 @@ module.exports = class PaymentMethodsShim
     else
       id    : "personal" # Also == the token braintree needs on update
       kind  : "paypal"
-      state : "inactive"
+      state : "active"
       # billingDay : 12
       billingDate : 1514936691001
       userInvoiceInfo : "I love Paypal"
       meta  :
-        accountId       : "john@doe.io"
-      apps:[]
-      invoices : []
+        accountId       : "johnwithareallyreallylongeamailaddressforyou@doe.io"
+      apps:[
+        {name:"main", href:"/some/url"}
+        {name:"some-app", href:"/some/url"}
+        {name:"facebook-app", href:"/some/url"}
+      ]
+      invoices:[
+        {id:'work', startAt:1452551513000, endAt:1455229913000}
+        {id:'zumiez', startAt:1455229913000, endAt:1457735513000}
+      ]
