@@ -10,7 +10,7 @@ module.exports = class PaymentMethodsShim
   getInvoice : (paymentMethodId) ->
     paymentMethod  = @getPaymentMethod paymentMethodId
     # Data starts here:
-    state         : "pending"
+    state         : "paid"
     id            : "23123"
     number        : "23123" # Use this for invoice number (instead of id)
     total         : "100.00"

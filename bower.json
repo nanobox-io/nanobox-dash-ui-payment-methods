@@ -1,6 +1,6 @@
 {
   "name": "payment-methods",
-  "version": "0.0.37",
+  "version": "0.0.39",
   "dependencies": {
     "jquery": "*",
     "velocity": "~1.1.0",
